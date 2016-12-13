@@ -1,8 +1,7 @@
-﻿using System;
-using CommandLine;
+﻿using CommandLine;
 using CommandLine.Text;
 
-namespace EquationSimplifier
+namespace EquationSimplifier.Entities
 {
 	public class Options
 	{

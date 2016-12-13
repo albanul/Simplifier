@@ -1,4 +1,5 @@
 ﻿using System;
+using EquationSimplifier.Entities;
 
 namespace EquationSimplifier
 {

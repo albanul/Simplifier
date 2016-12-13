@@ -47,12 +47,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Parsers\IParser.cs" />
-    <Compile Include="Parsers\UserInputParser.cs" />
+    <Compile Include="Entities\Parsers\IParser.cs" />
+    <Compile Include="Entities\Parsers\UserInputParser.cs" />
+    <Compile Include="Entities\Simplifier.cs" />
+    <Compile Include="Entities\Summand.cs" />
+    <Compile Include="Entities\Variable.cs" />
+    <Compile Include="Entities\Writers\ConsoleWriter.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="Options.cs" />
+    <Compile Include="Entities\Options.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Writers\IWriter.cs" />
+    <Compile Include="Entities\Writers\IWriter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

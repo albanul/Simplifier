@@ -1,13 +1,24 @@
-﻿using Xunit;
+﻿using System.Collections.Generic;
+using EquationSimplifier.Entities;
+using EquationSimplifier.Entities.Parsers;
+using EquationSimplifier.Entities.Writers;
+using Xunit;
 
 namespace EquationSimplifier.Test
 {
 	public class SimplifierTest
 	{
 		[Fact]
-		public void TestMethod1()
+		public void GetNextSummand_X_XReturned()
 		{
-			Assert.Equal(2+2, 4);
+			var parser = new UserInputParser("x");
+			var writer = new ConsoleWriter();
+			var simplifier = new Simplifier(parser, writer);
+			var result = new Summand(1, new List<Variable> {new Variable("x", 1)});
+
+			var summand = simplifier.GetNextSummand();
+
+			Assert.True(summand == result);
 		}
-	}
+}
 }

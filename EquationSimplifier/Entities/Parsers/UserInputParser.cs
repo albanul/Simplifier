@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace EquationSimplifier.Parsers
+namespace EquationSimplifier.Entities.Parsers
 {
 	public class UserInputParser : IParser
 	{
@@ -21,7 +16,7 @@ namespace EquationSimplifier.Parsers
 			_inputString = inputString;
 		}
 
-		public string GetNextLexem()
+		public string GetNextCharacter()
 		{
 			string lexem;
 

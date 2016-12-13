@@ -1,15 +1,15 @@
-﻿using EquationSimplifier.Parsers;
+﻿using EquationSimplifier.Entities.Parsers;
 using Xunit;
 
 namespace EquationSimplifier.Test
 {
 	public class UserInputParserTest
 	{
-		private static void GetNextLexem(string sourceValue, string result)
+		private static void GetNextCharacter(string sourceValue, string result)
 		{
 			var parser = new UserInputParser(sourceValue);
 
-			var lexem = parser.GetNextLexem();
+			var lexem = parser.GetNextCharacter();
 
 			Assert.Equal(result, lexem);
 		}
@@ -23,9 +23,9 @@ namespace EquationSimplifier.Test
 		[InlineData("z")]
 		[InlineData("0")]
 		[Theory]
-		public void GetNextLexem_SingleCharacter_SingleCharacterReturn(string value)
+		public void GetNextCharacter_SingleCharacter_SingleCharacterReturn(string value)
 		{
-			GetNextLexem(value, value);
+			GetNextCharacter(value, value);
 		}
 
 		[InlineData("     (")]
@@ -37,15 +37,15 @@ namespace EquationSimplifier.Test
 		[InlineData("        z")]
 		[InlineData(" 0")]
 		[Theory]
-		public void GetNextLexem_SingleCharacterLexemWithAlotWhitespace_SingleCharachterLexemReturn(string value)
+		public void GetNextCharacter_SingleCharacterWithAlotWhitespace_SingleCharachterReturn(string value)
 		{
-			GetNextLexem(value, value.Trim());
+			GetNextCharacter(value, value.Trim());
 		}
 
 		[Fact]
-		public void GetNextLexem_WhitespaceString_NullReturn()
+		public void GetNextCharacter_WhitespaceString_NullReturn()
 		{
-			GetNextLexem(" ", null);
+			GetNextCharacter(" ", null);
 		}
 	}
 }
