@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("EquationSimplifier")]
+[assembly: AssemblyTitle("EquationSimplifier.Test")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("EquationSimplifier")]
-[assembly: AssemblyCopyright("Copyright © Alex Banul 2016")]
+[assembly: AssemblyProduct("EquationSimplifier.Test")]
+[assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("cc4aeefa-505e-492f-8dec-af5a490d4e45")]
+[assembly: Guid("847d1d43-428d-484e-9d05-9833222118d0")]
 
 // Version information for an assembly consists of the following four values:
 //

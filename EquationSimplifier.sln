@@ -5,6 +5,8 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EquationSimplifier", "EquationSimplifier\EquationSimplifier.csproj", "{CC4AEEFA-505E-492F-8DEC-AF5A490D4E45}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EquationSimplifier.Test", "EquationSimplifier.Test\EquationSimplifier.Test.csproj", "{847D1D43-428D-484E-9D05-9833222118D0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{CC4AEEFA-505E-492F-8DEC-AF5A490D4E45}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CC4AEEFA-505E-492F-8DEC-AF5A490D4E45}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CC4AEEFA-505E-492F-8DEC-AF5A490D4E45}.Release|Any CPU.Build.0 = Release|Any CPU
+		{847D1D43-428D-484E-9D05-9833222118D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{847D1D43-428D-484E-9D05-9833222118D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{847D1D43-428D-484E-9D05-9833222118D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{847D1D43-428D-484E-9D05-9833222118D0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
