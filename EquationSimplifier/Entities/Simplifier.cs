@@ -10,7 +10,7 @@ namespace EquationSimplifier.Entities
 {
 	public class Simplifier
 	{
-		const double Eps = 0.00000001;
+		private const double Eps = 1E-10;
 		private const string PowerSymbol = "^";
 		private const string DotSymbol = ".";
 		private const string PlusSymbol = "+";
