@@ -293,8 +293,6 @@ namespace EquationSimplifier.Entities
 				_variable.Power = int.Parse(_coeficientBuilder.ToString());
 				_coeficientBuilder.Clear();
 
-				FixCoeficient();
-
 				_summand.AddVariable(ref _variable);
 
 				_state = SimplifierState.None;
@@ -388,9 +386,6 @@ namespace EquationSimplifier.Entities
 			{
 				_summand.AddVariable(ref _variable);
 
-				// calculate correct sign of summand
-				FixCoeficient();
-
 				summandDone = true;
 
 				_stackOfSigns.Pop();
@@ -477,6 +472,7 @@ namespace EquationSimplifier.Entities
 			else if (char.IsLetter(character, 0))
 			{
 				_variable = new Variable(character, 1);
+				FixCoeficient();
 				_state = SimplifierState.Variable;
 			}
 			else if (char.IsNumber(character, 0))
