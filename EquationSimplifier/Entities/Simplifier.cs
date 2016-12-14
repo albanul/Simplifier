@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Text;
 using EquationSimplifier.Entities.Factories;
 using EquationSimplifier.Entities.Parsers;
@@ -70,8 +71,17 @@ namespace EquationSimplifier.Entities
 				// if coeficient != 0
 				if (Math.Abs(summand.Coeficient) > Eps)
 				{
-					// add new summand into colletion
-					_summands.Add(summand);
+					var summandsWithSameVariables = _summands.Where(s => s.EqualVariables(summand)).ToArray();
+
+					if (summandsWithSameVariables.Length == 0)
+					{
+						// add new summand into colletion
+						_summands.Add(summand);
+					}
+					else
+					{
+						summandsWithSameVariables[0].Coeficient += summand.Coeficient;
+					}
 				}
 			}
 

@@ -62,6 +62,11 @@ namespace EquationSimplifier.Entities
 			};
 		}
 
+		public bool EqualVariables(Summand other)
+		{
+			return Variables.All(v => other.Variables.Contains(v));
+		}
+
 		public static bool operator ==(Summand leftSummand, Summand rightSummand)
 		{
 			return leftSummand?.Equals(rightSummand) ?? false;
