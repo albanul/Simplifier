@@ -55,6 +55,7 @@
     <Compile Include="Entities\Summand.cs" />
     <Compile Include="Entities\Variable.cs" />
     <Compile Include="Entities\Writers\ConsoleWriter.cs" />
+    <Compile Include="Entities\SummandsToStringWriter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Entities\Options.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

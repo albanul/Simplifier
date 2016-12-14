@@ -7,14 +7,14 @@ namespace EquationSimplifier.Entities
 	public class Summand : IEquatable<Summand>
 	{
 		public double Coeficient { get; set; }
-		private List<Variable> Variables { get; set; }
+		public List<Variable> Variables { get; private set; }
 
 		public Summand(double coeficient, List<Variable> variables)
 		{
 			Coeficient = coeficient;
 			Variables = variables;
 		}
-		
+
 		public void AddVariable(ref Variable variable)
 		{
 			if (variable.Power == 0)

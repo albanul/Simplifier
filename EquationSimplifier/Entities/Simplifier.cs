@@ -182,7 +182,6 @@ namespace EquationSimplifier.Entities
 		{
 			if (character == MinusSymbol)
 			{
-				// todo: check that
 				_currentSummandSign = -1;
 				_state = SimplifierState.Minus;
 			}
@@ -228,7 +227,7 @@ namespace EquationSimplifier.Entities
 
 				_state = SimplifierState.Variable;
 			}
-			else if (character == PlusSymbol || character == EqualSymbol)
+			else if (character == PlusSymbol)
 			{
 				_summand.Coeficient = double.Parse(_coeficientBuilder.ToString(), CultureInfo.InvariantCulture);
 				_coeficientBuilder.Clear();
@@ -237,6 +236,21 @@ namespace EquationSimplifier.Entities
 				_summand.AddVariable(ref _variable);
 
 				FixCoeficient();
+
+				summandDone = true;
+
+				_state = SimplifierState.None;
+			}
+			else if (character == EqualSymbol)
+			{
+				_summand.Coeficient = double.Parse(_coeficientBuilder.ToString(), CultureInfo.InvariantCulture);
+				_coeficientBuilder.Clear();
+
+				_variable = new Variable(string.Empty, 0);
+				_summand.AddVariable(ref _variable);
+
+				FixCoeficient();
+				ReverseSignInStack();
 
 				summandDone = true;
 
@@ -296,6 +310,16 @@ namespace EquationSimplifier.Entities
 			return summandDone;
 		}
 
+		private void ReverseSignInStack()
+		{
+			if (_stackOfSigns.Count > 1)
+			{
+				throw new Exception();
+			}
+			_stackOfSigns.Pop();
+			_stackOfSigns.Push(-1);
+		}
+
 		private void DotStateHandle(string character)
 		{
 			if (char.IsNumber(character, 0))
@@ -326,12 +350,38 @@ namespace EquationSimplifier.Entities
 
 				_state = SimplifierState.Variable;
 			}
-			else if (character == PlusSymbol || character == MinusSymbol || character == EqualSymbol)
+			else if (character == PlusSymbol)
 			{
 				_variable.Power = int.Parse(_coeficientBuilder.ToString());
 				_coeficientBuilder.Clear();
 
 				_summand.AddVariable(ref _variable);
+
+				_state = SimplifierState.None;
+
+				summandDone = true;
+			}
+			else if (character == EqualSymbol)
+			{
+				ReverseSignInStack();
+
+				_variable.Power = int.Parse(_coeficientBuilder.ToString());
+				_coeficientBuilder.Clear();
+
+				_summand.AddVariable(ref _variable);
+
+				_state = SimplifierState.None;
+
+				summandDone = true;
+			}
+			else if (character == MinusSymbol)
+			{
+				_variable.Power = int.Parse(_coeficientBuilder.ToString());
+				_coeficientBuilder.Clear();
+
+				_summand.AddVariable(ref _variable);
+
+				_nextSummandSign = -1;
 
 				_state = SimplifierState.None;
 
@@ -402,8 +452,18 @@ namespace EquationSimplifier.Entities
 			{
 				_state = SimplifierState.Power;
 			}
-			else if (character == PlusSymbol || character == EqualSymbol)
+			else if (character == PlusSymbol)
 			{
+				_summand.AddVariable(ref _variable);
+
+				summandDone = true;
+
+				_state = SimplifierState.None;
+			}
+			else if (character == EqualSymbol)
+			{
+				ReverseSignInStack();
+
 				_summand.AddVariable(ref _variable);
 
 				summandDone = true;
@@ -477,12 +537,28 @@ namespace EquationSimplifier.Entities
 
 				_state = SimplifierState.Variable;
 			}
-			else if (character == PlusSymbol || character == EqualSymbol)
+			else if (character == PlusSymbol)
 			{
 				_summand.Coeficient = double.Parse(_coeficientBuilder.ToString());
 				_coeficientBuilder.Clear();
 
 				FixCoeficient();
+
+				_variable = new Variable(string.Empty, 0);
+				_summand.AddVariable(ref _variable);
+
+				summandDone = true;
+
+				_state = SimplifierState.None;
+			}
+			else if (character == EqualSymbol)
+			{
+				_summand.Coeficient = double.Parse(_coeficientBuilder.ToString());
+				_coeficientBuilder.Clear();
+
+				FixCoeficient();
+
+				ReverseSignInStack();
 
 				_variable = new Variable(string.Empty, 0);
 				_summand.AddVariable(ref _variable);
@@ -567,9 +643,14 @@ namespace EquationSimplifier.Entities
 				_stackOfSigns.Pop();
 				_state = SimplifierState.CloseBracket;
 			}
-			else if (character == PlusSymbol || character == EqualSymbol ||
-					string.IsNullOrEmpty(character))
+			else if (character == PlusSymbol || string.IsNullOrEmpty(character))
 			{
+				_state = SimplifierState.None;
+			}
+			else if (character == EqualSymbol)
+			{
+				ReverseSignInStack();
+
 				_state = SimplifierState.None;
 			}
 			else

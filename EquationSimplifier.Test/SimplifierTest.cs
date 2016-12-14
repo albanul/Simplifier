@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using EquationSimplifier.Entities;
 using EquationSimplifier.Entities.Factories;
+using EquationSimplifier.Entities.Writers;
 using Xunit;
 
 namespace EquationSimplifier.Test
@@ -790,6 +791,18 @@ namespace EquationSimplifier.Test
 		}
 
 		[Fact]
+		public void Simplify_X2PlusMinusX2Equal0_List2XReturned()
+		{
+			var factory = new ConsoleInputFactory("x^2-x^2=0");
+			var simplifier = new Simplifier(factory);
+			var result = new List<Summand>();
+
+			var summands = simplifier.Simplify();
+
+			Assert.Equal(result, summands);
+		}
+
+		[Fact]
 		public void Simplify_XMinusX_EmptyListReturned()
 		{
 			var factory = new ConsoleInputFactory("x-x=0");
@@ -876,6 +889,69 @@ namespace EquationSimplifier.Test
 			Assert.Equal(result.Count, summands.Count);
 			Assert.Equal(result[0].Coeficient, summands[0].Coeficient);
 			Assert.True(result[0].EqualVariables(summands[0]));
+		}
+
+		[Fact]
+		public void Simplify_XEqualX_Returned()
+		{
+			var factory = new ConsoleInputFactory("x=x");
+			var simplifier = new Simplifier(factory);
+			var result = new List<Summand>();
+
+			var summands = simplifier.Simplify();
+
+			Assert.Equal(result, summands);
+		}
+
+		[Fact]
+		public void Simplify_XMinusXPlusYEqual2X_MinusYMinus2XReturned()
+		{
+			var factory = new ConsoleInputFactory("x - (x + y) = 2x");
+			var simplifier = new Simplifier(factory);
+			var result = new List<Summand>
+			{
+				new Summand(-1, new List<Variable>
+				{
+					new Variable("y", 1)
+				}),
+				new Summand(-2, new List<Variable>
+				{
+					new Variable("x", 1)
+				})
+			};
+
+			var summands = simplifier.Simplify();
+
+			Assert.Equal(result, summands);
+		}
+
+		[Fact]
+		public void Simplify_X2Plus3point5XYPlusYEqualY2MinusXYPlusY_X2MinusY2Plus4point5XYReturned()
+		{
+			var factory = new ConsoleInputFactory("x^2+3.5xy+y=y^2-xy+y");
+			var simplifier = new Simplifier(factory);
+			var result = new List<Summand>
+			{
+				new Summand(1, new List<Variable>
+				{
+					new Variable("x", 2)
+				}),
+				new Summand(-1, new List<Variable>
+				{
+					new Variable("y", 2)
+				}),
+				new Summand(4.5, new List<Variable>
+				{
+					new Variable("x", 1),
+					new Variable("y", 1)
+				})
+			};
+
+			var summands = simplifier.Simplify();
+
+			var str = SummandsToStringWriter.GetString(summands);
+
+			Assert.Equal(result, summands);
 		}
 
 		#endregion

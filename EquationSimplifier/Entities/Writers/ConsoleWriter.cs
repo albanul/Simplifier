@@ -1,12 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace EquationSimplifier.Entities.Writers
 {
 	public class ConsoleWriter : IWriter
 	{
-		public void Write(object o)
+		public void Write(List<Summand> list)
 		{
-			Console.WriteLine(o);
+			throw new NotImplementedException();
 		}
 	}
 }
