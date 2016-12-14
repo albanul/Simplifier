@@ -14,6 +14,8 @@ namespace EquationSimplifier.Entities
 		private const string PlusSymbol = "+";
 		private const string MinusSymbol = "-";
 		private const string EqualSymbol = "=";
+		private const string OpenBracketSymbol = "(";
+		private const string CloseBracketSymbol = ")";
 
 		public enum SimplifierState
 		{
@@ -25,7 +27,8 @@ namespace EquationSimplifier.Entities
 			Power,
 			PowerCoeficient,
 			OpenBracket,
-			CloseBracket
+			CloseBracket,
+			Minus
 		}
 
 		private SimplifierState _state;
@@ -34,6 +37,7 @@ namespace EquationSimplifier.Entities
 		private List<Summand> _summands = new List<Summand>();
 
 		private Variable _variable;
+		private short _variableSign = 1;
 		private Summand _summand;
 
 		private readonly StringBuilder _coeficientBuilder;
@@ -68,6 +72,32 @@ namespace EquationSimplifier.Entities
 				switch (_state)
 				{
 					case SimplifierState.None:
+						if (character == MinusSymbol)
+						{
+							_variableSign *= -1;
+							_state = SimplifierState.Minus;
+						}
+						else if (char.IsNumber(character, 0))
+						{
+							_coeficientBuilder.Append(character);
+							_state = SimplifierState.TheIntegerPartOfCoeficientOrZero;
+						}
+						else if (char.IsLetter(character, 0))
+						{
+							_variable = new Variable(character, 1);
+							_state = SimplifierState.Variable;
+						}
+						else if (character == OpenBracketSymbol)
+						{
+							_state = SimplifierState.OpenBracket;
+						}
+						else
+						{
+							throw new Exception();
+						}
+
+						break;
+					case SimplifierState.Minus:
 						if (char.IsNumber(character, 0))
 						{
 							_coeficientBuilder.Append(character);
@@ -76,8 +106,36 @@ namespace EquationSimplifier.Entities
 						else if (char.IsLetter(character, 0))
 						{
 							_variable = new Variable(character, 1);
-							//_summand.Variables.Add(_variable);
 							_state = SimplifierState.Variable;
+						}
+						else if (character == OpenBracketSymbol)
+						{
+							_state = SimplifierState.OpenBracket;
+						}
+						else
+						{
+							throw new Exception();
+						}
+
+						break;
+					case SimplifierState.OpenBracket:
+						if (character == OpenBracketSymbol)
+						{
+							_state = SimplifierState.OpenBracket;
+						}
+						else if (char.IsLetter(character, 0))
+						{
+							_variable = new Variable(character, 1);
+							_state = SimplifierState.Variable;
+						}
+						else if (character == MinusSymbol)
+						{
+							_variableSign *= -1;
+							_state = SimplifierState.Minus;
+						}
+						else
+						{
+							throw new Exception();
 						}
 
 						break;
@@ -120,6 +178,16 @@ namespace EquationSimplifier.Entities
 							_state = SimplifierState.None;
 
 							summandDone = true;
+						}
+						else if (character == CloseBracketSymbol)
+						{
+							_summand.Variables.Add(_variable);
+
+							_state = SimplifierState.CloseBracket;
+						}
+						else
+						{
+							throw new Exception();
 						}
 
 						break;
@@ -199,12 +267,29 @@ namespace EquationSimplifier.Entities
 						}
 
 						break;
+					case SimplifierState.CloseBracket:
+						if (character == CloseBracketSymbol)
+						{
+							_state = SimplifierState.CloseBracket;
+						}
+						else if (character == PlusSymbol || character == MinusSymbol || character == EqualSymbol)
+						{
+							_state = SimplifierState.None;
+						}
+						else
+						{
+							throw new Exception();
+						}
+
+						break;
 					default:
 						throw new Exception("Unhandle simplifier state");
 				}
 
 				if (_finished || summandDone) break;
 			}
+
+			_summand.Coeficient *= _variableSign;
 
 			return _summand;
 		}
