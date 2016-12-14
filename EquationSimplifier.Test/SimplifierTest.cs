@@ -395,9 +395,51 @@ namespace EquationSimplifier.Test
 		}
 
 		[Fact]
+		public void GetNextSumman_0point0EqualZero_ZeroReturned()
+		{
+			var factory = new ConsoleInputFactory("0.0=0");
+			var simplifier = new Simplifier(factory);
+			var zero = new Variable(string.Empty, 0);
+			var variables = new List<Variable> { zero };
+			var result = new Summand(0, variables);
+
+			var summand = simplifier.GetNextSummand();
+
+			Assert.Equal(result, summand);
+		}
+
+		[Fact]
 		public void GetNextSumman_Zeropoint5EqualZero_Zeropoint5Returned()
 		{
 			var factory = new ConsoleInputFactory("0.5=0.5");
+			var simplifier = new Simplifier(factory);
+			var half = new Variable(string.Empty, 0);
+			var variables = new List<Variable> { half };
+			var result = new Summand(0.5, variables);
+
+			var summand = simplifier.GetNextSummand();
+
+			Assert.Equal(result, summand);
+		}
+
+		[Fact]
+		public void GetNextSumman_MinusZeropoint5EqualZero_MinusZeropoint5Returned()
+		{
+			var factory = new ConsoleInputFactory("-0.5=0");
+			var simplifier = new Simplifier(factory);
+			var half = new Variable(string.Empty, 0);
+			var variables = new List<Variable> { half };
+			var result = new Summand(-0.5, variables);
+
+			var summand = simplifier.GetNextSummand();
+
+			Assert.Equal(result, summand);
+		}
+
+		[Fact]
+		public void GetNextSumman_MinusMinusZeropoint5EqualZero_Zeropoint5Returned()
+		{
+			var factory = new ConsoleInputFactory("-(-0.5)=0");
 			var simplifier = new Simplifier(factory);
 			var half = new Variable(string.Empty, 0);
 			var variables = new List<Variable> { half };
@@ -416,6 +458,62 @@ namespace EquationSimplifier.Test
 			var one = new Variable(string.Empty, 0);
 			var variables = new List<Variable> {one};
 			var result = new Summand(1, variables);
+
+			var summand = simplifier.GetNextSummand();
+
+			Assert.Equal(result, summand);
+		}
+
+		[Fact]
+		public void GetNextSummand_X0Y0EqualZero_1Returned()
+		{
+			var factory = new ConsoleInputFactory("x^0y^0=0");
+			var simplifier = new Simplifier(factory);
+			var one = new Variable(string.Empty, 0);
+			var variables = new List<Variable> { one };
+			var result = new Summand(1, variables);
+
+			var summand = simplifier.GetNextSummand();
+
+			Assert.Equal(result, summand);
+		}
+
+		[Fact]
+		public void GetNextSummand_0X3Y1EqualZero_0Returned()
+		{
+			var factory = new ConsoleInputFactory("0x^3y^1=0");
+			var simplifier = new Simplifier(factory);
+			var zero = new Variable(string.Empty, 0);
+			var variables = new List<Variable> { zero };
+			var result = new Summand(0, variables);
+
+			var summand = simplifier.GetNextSummand();
+
+			Assert.Equal(result, summand);
+		}
+
+		[Fact]
+		public void GetNextSummand_0X3YEqualZero_0Returned()
+		{
+			var factory = new ConsoleInputFactory("0x^3y=0");
+			var simplifier = new Simplifier(factory);
+			var zero = new Variable(string.Empty, 0);
+			var variables = new List<Variable> { zero };
+			var result = new Summand(0, variables);
+
+			var summand = simplifier.GetNextSummand();
+
+			Assert.Equal(result, summand);
+		}
+
+		[Fact]
+		public void GetNextSummand_0point0X3YEqualZero_0Returned()
+		{
+			var factory = new ConsoleInputFactory("0.0x^3y=0");
+			var simplifier = new Simplifier(factory);
+			var zero = new Variable(string.Empty, 0);
+			var variables = new List<Variable> { zero };
+			var result = new Summand(0, variables);
 
 			var summand = simplifier.GetNextSummand();
 

@@ -10,6 +10,7 @@ namespace EquationSimplifier.Entities
 {
 	public class Simplifier
 	{
+		const double Eps = 0.00000001;
 		private const string PowerSymbol = "^";
 		private const string DotSymbol = ".";
 		private const string PlusSymbol = "+";
@@ -121,6 +122,11 @@ namespace EquationSimplifier.Entities
 
 			_summand.Coeficient *= _variableSign;
 
+			// check if coeficient == 0 then make it a zero constant
+			if (Math.Abs(_summand.Coeficient) < Eps)
+			{
+				_summand.MakeConstant(0);
+			}
 			return _summand;
 		}
 
@@ -168,6 +174,18 @@ namespace EquationSimplifier.Entities
 				summandDone = true;
 
 				_state = SimplifierState.None;
+			}
+			else if (character == CloseBracketSymbol)
+			{
+				_summand.Coeficient = double.Parse(_coeficientBuilder.ToString(), CultureInfo.InvariantCulture);
+				_coeficientBuilder.Clear();
+
+				_variable = new Variable(string.Empty, 0);
+				_summand.AddVariable(ref _variable);
+
+				summandDone = true;
+
+				_state = SimplifierState.CloseBracket;
 			}
 			else
 			{

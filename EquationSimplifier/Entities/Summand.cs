@@ -15,7 +15,6 @@ namespace EquationSimplifier.Entities
 			Variables = variables;
 		}
 		
-		// todo: probably i should send variable by reference
 		public void AddVariable(ref Variable variable)
 		{
 			if (variable.Power == 0)
@@ -32,6 +31,16 @@ namespace EquationSimplifier.Entities
 			{
 				Variables.Add(variable);
 			}
+		}
+
+		public void MakeConstant(double coeficient)
+		{
+			Coeficient = coeficient;
+
+			Variables = new List<Variable>
+			{
+				new Variable(string.Empty, 0)
+			};
 		}
 
 		public static bool operator ==(Summand leftSummand, Summand rightSummand)
