@@ -3,12 +3,12 @@
 	public struct Variable
 	{
 		private string _name;
-		private int _power;
+		public int Power { get; set; }
 
 		public Variable(string name, int power)
 		{
 			_name = name;
-			_power = power;
+			Power = power;
 		}
 	}
 }

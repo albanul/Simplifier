@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace EquationSimplifier.Entities
 {
-	public struct Summand : IEquatable<Summand>
+	public class Summand : IEquatable<Summand>
 	{
 		public double Coeficient { get; set; }
 		public List<Variable> Variables { get; set; }
@@ -15,19 +15,22 @@ namespace EquationSimplifier.Entities
 			Variables = variables;
 		}
 
+
+
 		public static bool operator ==(Summand leftSummand, Summand rightSummand)
 		{
-			return leftSummand.Equals(rightSummand);
+			return leftSummand?.Equals(rightSummand) ?? false;
 		}
 
 		public static bool operator !=(Summand leftSummand, Summand rightSummand)
 		{
-			return !leftSummand.Equals(rightSummand);
+			return !(leftSummand?.Equals(rightSummand) ?? false);
 		}
 
 		public bool Equals(Summand other)
 		{
-			return Coeficient.Equals(other.Coeficient) &&
+			return !ReferenceEquals(null, other) &&
+					Coeficient.Equals(other.Coeficient) &&
 					Variables.Count == other.Variables.Count &&
 					Variables.All(v => other.Variables.Contains(v));
 		}
@@ -35,7 +38,8 @@ namespace EquationSimplifier.Entities
 		public override bool Equals(object obj)
 		{
 			if (ReferenceEquals(null, obj)) return false;
-			return obj is Summand && Equals((Summand) obj);
+			var a = obj as Summand;
+			return a != null && Equals(a);
 		}
 
 		public override int GetHashCode()

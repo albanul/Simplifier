@@ -12,10 +12,10 @@ namespace EquationSimplifier.Test
 			var x1 = new Variable("x", 1);
 
 			var firstVariables = new List<Variable> {x1};
-			var firstSummand = new Summand(2, firstVariables);
+			var firstSummand = new Summand(1, firstVariables);
 
 			var seconndVariables = new List<Variable> {x1};
-			var secondSummand = new Summand(2, seconndVariables);
+			var secondSummand = new Summand(1, seconndVariables);
 
 			Assert.True(firstSummand == secondSummand);
 		}
@@ -26,11 +26,11 @@ namespace EquationSimplifier.Test
 			var x1 = new Variable("x", 1);
 			var y2 = new Variable("y", 2);
 
-			var firstVariables = new List<Variable> { x1, y2 };
-			var firstSummand = new Summand(2, firstVariables);
+			var firstVariables = new List<Variable> {x1, y2};
+			var firstSummand = new Summand(1, firstVariables);
 
-			var seconndVariables = new List<Variable> { x1, y2 };
-			var secondSummand = new Summand(2, seconndVariables);
+			var seconndVariables = new List<Variable> {x1, y2};
+			var secondSummand = new Summand(1, seconndVariables);
 
 			Assert.True(firstSummand == secondSummand);
 		}
@@ -41,11 +41,11 @@ namespace EquationSimplifier.Test
 			var x1 = new Variable("x", 1);
 			var y2 = new Variable("y", 2);
 
-			var firstVariables = new List<Variable> { x1 };
-			var firstSummand = new Summand(2, firstVariables);
+			var firstVariables = new List<Variable> {x1};
+			var firstSummand = new Summand(1, firstVariables);
 
-			var seconndVariables = new List<Variable> { x1, y2 };
-			var secondSummand = new Summand(2, seconndVariables);
+			var seconndVariables = new List<Variable> {x1, y2};
+			var secondSummand = new Summand(1, seconndVariables);
 
 			Assert.False(firstSummand == secondSummand);
 		}
@@ -56,13 +56,53 @@ namespace EquationSimplifier.Test
 			var x1 = new Variable("x", 1);
 			var y2 = new Variable("y", 2);
 
-			var firstVariables = new List<Variable> { x1, y2 };
-			var firstSummand = new Summand(2, firstVariables);
+			var firstVariables = new List<Variable> {x1, y2};
+			var firstSummand = new Summand(1, firstVariables);
 
-			var seconndVariables = new List<Variable> { y2, x1 };
-			var secondSummand = new Summand(2, seconndVariables);
+			var seconndVariables = new List<Variable> {y2, x1};
+			var secondSummand = new Summand(1, seconndVariables);
 
 			Assert.True(firstSummand == secondSummand);
+		}
+
+		[Fact]
+		public void Equals_2X1_X1_FalseReturned()
+		{
+			var x1 = new Variable("x", 1);
+
+			var firstVariables = new List<Variable> { x1 };
+			var firstSummand = new Summand(1, firstVariables);
+
+			var seconndVariables = new List<Variable> { x1 };
+			var secondSummand = new Summand(2, seconndVariables);
+
+			Assert.False(firstSummand == secondSummand);
+		}
+
+		[Fact]
+		public void Equals_X1_Null_FalseReturned()
+		{
+			var x1 = new Variable("x", 1);
+
+			var firstVariables = new List<Variable> {x1};
+			var firstSummand = new Summand(1, firstVariables);
+
+			Summand secondSummand = null;
+
+			Assert.False(firstSummand == secondSummand);
+		}
+
+		[Fact]
+		public void Equals_Null_X1_FalseReturned()
+		{
+			var x1 = new Variable("x", 1);
+
+			var secondVariable = new List<Variable> {x1};
+			var secondSummand = new Summand(1, secondVariable);
+
+			Summand firstSummand = null;
+
+			Assert.False(firstSummand == secondSummand);
 		}
 	}
 }

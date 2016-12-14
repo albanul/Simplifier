@@ -9,9 +9,9 @@ namespace EquationSimplifier.Test
 		{
 			var parser = new UserInputParser(sourceValue);
 
-			var lexem = parser.GetNextCharacter();
+			var character = parser.GetNextCharacter();
 
-			Assert.Equal(result, lexem);
+			Assert.Equal(result, character);
 		}
 
 		[InlineData("(")]
@@ -46,6 +46,18 @@ namespace EquationSimplifier.Test
 		public void GetNextCharacter_WhitespaceString_NullReturn()
 		{
 			GetNextCharacter(" ", null);
+		}
+
+		[Fact]
+		public void GetNextCharacter_TwoBracketsDividedByWhitespaces_TwoBracketsWithoutWhitespacesReturn()
+		{
+			var parser = new UserInputParser("     (             )    ");
+
+			var character1 = parser.GetNextCharacter();
+			var character2 = parser.GetNextCharacter();
+
+			Assert.Equal("(", character1);
+			Assert.Equal(")", character2);
 		}
 	}
 }
