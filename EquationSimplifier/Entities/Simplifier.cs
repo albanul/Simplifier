@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
 using EquationSimplifier.Entities.Parsers;
 using EquationSimplifier.Entities.Writers;
@@ -95,8 +96,12 @@ namespace EquationSimplifier.Entities
 						{
 							_summand.Coeficient = double.Parse(_coeficientBuilder.ToString());
 							_coeficientBuilder.Clear();
+
+							_variable = new Variable(character, 1);
+
 							_state = SimplifierState.Variable;
 						}
+
 						break;
 					case SimplifierState.Variable:
 						if (char.IsLetter(character, 0))
@@ -108,6 +113,15 @@ namespace EquationSimplifier.Entities
 						{
 							_state = SimplifierState.Power;
 						}
+						else if (character == PlusSymbol || character == MinusSymbol || character == EqualSymbol)
+						{
+							_summand.Variables.Add(_variable);
+
+							_state = SimplifierState.None;
+
+							summandDone = true;
+						}
+
 						break;
 					case SimplifierState.Power:
 						if (char.IsNumber(character, 0))
@@ -119,6 +133,7 @@ namespace EquationSimplifier.Entities
 						{
 							throw new Exception();
 						}
+
 						break;
 					case SimplifierState.PowerCoeficient:
 						if (char.IsNumber(character, 0))
@@ -150,7 +165,42 @@ namespace EquationSimplifier.Entities
 						{
 							throw new Exception();
 						}
+
 						break;
+					case SimplifierState.Dot:
+						if (char.IsNumber(character, 0))
+						{
+							_coeficientBuilder.Append(character);
+							_state = SimplifierState.FractionalPartOfCorficient;
+						}
+						else
+						{
+							throw new Exception();
+						}
+
+						break;
+					case SimplifierState.FractionalPartOfCorficient:
+						if (char.IsNumber(character, 0))
+						{
+							_coeficientBuilder.Append(character);
+						}
+						else if (char.IsLetter(character, 0))
+						{
+							_summand.Coeficient = double.Parse(_coeficientBuilder.ToString(), CultureInfo.InvariantCulture);
+							_coeficientBuilder.Clear();
+
+							_variable = new Variable(character, 1);
+
+							_state = SimplifierState.Variable;
+						}
+						else
+						{
+							throw new Exception();
+						}
+
+						break;
+					default:
+						throw new Exception("Unhandle simplifier state");
 				}
 
 				if (_finished || summandDone) break;
