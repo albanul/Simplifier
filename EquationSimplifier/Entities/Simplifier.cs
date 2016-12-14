@@ -342,7 +342,20 @@ namespace EquationSimplifier.Entities
 		private bool PowerCoeficientStateHandle(string character)
 		{
 			var summandDone = false;
-			if (char.IsNumber(character, 0))
+
+			if (string.IsNullOrEmpty(character))
+			{
+				_variable.Power = int.Parse(_coeficientBuilder.ToString());
+				_coeficientBuilder.Clear();
+
+				_summand.AddVariable(ref _variable);
+
+				summandDone = true;
+				_finished = true;
+
+				_state = SimplifierState.None;
+			}
+			else if (char.IsNumber(character, 0))
 			{
 				_coeficientBuilder.Append(character);
 			}
@@ -403,18 +416,6 @@ namespace EquationSimplifier.Entities
 				summandDone = true;
 
 				_state = SimplifierState.CloseBracket;
-			}
-			else if (string.IsNullOrEmpty(character))
-			{
-				_variable.Power = int.Parse(_coeficientBuilder.ToString());
-				_coeficientBuilder.Clear();
-
-				_summand.AddVariable(ref _variable);
-
-				summandDone = true;
-				_finished = true;
-
-				_state = SimplifierState.None;
 			}
 			else
 			{

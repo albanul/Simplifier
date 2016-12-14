@@ -952,6 +952,24 @@ namespace EquationSimplifier.Test
 			Assert.Equal(result, summands);
 		}
 
+		[Fact]
+		public void Simplify_ZeroEqualMinusY2_ListWithY2Returned()
+		{
+			var factory = new ConsoleInputFactory("0=-y^2");
+			var simplifier = new Simplifier(factory);
+			var result = new List<Summand>
+			{
+				new Summand(1, new List<Variable>
+				{
+					new Variable("y", 2)
+				})
+			};
+
+			var summands = simplifier.Simplify();
+
+			Assert.Equal(result, summands);
+		}
+
 		#endregion
 	}
 }
