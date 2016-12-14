@@ -72,214 +72,43 @@ namespace EquationSimplifier.Entities
 				switch (_state)
 				{
 					case SimplifierState.None:
-						if (character == MinusSymbol)
-						{
-							_variableSign *= -1;
-							_state = SimplifierState.Minus;
-						}
-						else if (char.IsNumber(character, 0))
-						{
-							_coeficientBuilder.Append(character);
-							_state = SimplifierState.TheIntegerPartOfCoeficientOrZero;
-						}
-						else if (char.IsLetter(character, 0))
-						{
-							_variable = new Variable(character, 1);
-							_state = SimplifierState.Variable;
-						}
-						else if (character == OpenBracketSymbol)
-						{
-							_state = SimplifierState.OpenBracket;
-						}
-						else
-						{
-							throw new Exception();
-						}
+						NoneStateHandle(character);
 
 						break;
 					case SimplifierState.Minus:
-						if (char.IsNumber(character, 0))
-						{
-							_coeficientBuilder.Append(character);
-							_state = SimplifierState.TheIntegerPartOfCoeficientOrZero;
-						}
-						else if (char.IsLetter(character, 0))
-						{
-							_variable = new Variable(character, 1);
-							_state = SimplifierState.Variable;
-						}
-						else if (character == OpenBracketSymbol)
-						{
-							_state = SimplifierState.OpenBracket;
-						}
-						else
-						{
-							throw new Exception();
-						}
+						MinusStateHandle(character);
 
 						break;
 					case SimplifierState.OpenBracket:
-						if (character == OpenBracketSymbol)
-						{
-							_state = SimplifierState.OpenBracket;
-						}
-						else if (char.IsLetter(character, 0))
-						{
-							_variable = new Variable(character, 1);
-							_state = SimplifierState.Variable;
-						}
-						else if (character == MinusSymbol)
-						{
-							_variableSign *= -1;
-							_state = SimplifierState.Minus;
-						}
-						else
-						{
-							throw new Exception();
-						}
+						OpenBrackerStateHandle(character);
 
 						break;
 					case SimplifierState.TheIntegerPartOfCoeficientOrZero:
-						if (character == DotSymbol)
-						{
-							_coeficientBuilder.Append(character);
-							_state = SimplifierState.Dot;
-						}
-						else if (char.IsNumber(character, 0))
-						{
-							_coeficientBuilder.Append(character);
-							_state = SimplifierState.FractionalPartOfCorficient;
-						}
-						else if (char.IsLetter(character, 0))
-						{
-							_summand.Coeficient = double.Parse(_coeficientBuilder.ToString());
-							_coeficientBuilder.Clear();
-
-							_variable = new Variable(character, 1);
-
-							_state = SimplifierState.Variable;
-						}
+						TheIntegerPartOfCoeficientOrZeroStateHandle(character);
 
 						break;
 					case SimplifierState.Variable:
-						if (char.IsLetter(character, 0))
-						{
-							_summand.Variables.Add(_variable);
-							_variable = new Variable(character, 1);
-						} 
-						else if (character == PowerSymbol)
-						{
-							_state = SimplifierState.Power;
-						}
-						else if (character == PlusSymbol || character == MinusSymbol || character == EqualSymbol)
-						{
-							_summand.Variables.Add(_variable);
-
-							_state = SimplifierState.None;
-
-							summandDone = true;
-						}
-						else if (character == CloseBracketSymbol)
-						{
-							_summand.Variables.Add(_variable);
-
-							_state = SimplifierState.CloseBracket;
-						}
-						else
-						{
-							throw new Exception();
-						}
+						summandDone = VariableStateHandle(character);
 
 						break;
 					case SimplifierState.Power:
-						if (char.IsNumber(character, 0))
-						{
-							_coeficientBuilder.Append(character);
-							_state = SimplifierState.PowerCoeficient;
-						}
-						else
-						{
-							throw new Exception();
-						}
+						PowerStateHandle(character);
 
 						break;
 					case SimplifierState.PowerCoeficient:
-						if (char.IsNumber(character, 0))
-						{
-							_coeficientBuilder.Append(character);
-						}
-						else if (char.IsLetter(character, 0))
-						{
-							_variable.Power = int.Parse(_coeficientBuilder.ToString());
-							_coeficientBuilder.Clear();
-
-							_summand.Variables.Add(_variable);
-							_variable = new Variable(character, 1);
-							
-							_state = SimplifierState.Variable;
-						}
-						else if (character == PlusSymbol || character == MinusSymbol || character == EqualSymbol)
-						{
-							_variable.Power = int.Parse(_coeficientBuilder.ToString());
-							_coeficientBuilder.Clear();
-
-							_summand.Variables.Add(_variable);
-
-							_state = SimplifierState.None;
-
-							summandDone = true;
-						}
-						else
-						{
-							throw new Exception();
-						}
+						summandDone = PowerCoeficientStateHandle(character);
 
 						break;
 					case SimplifierState.Dot:
-						if (char.IsNumber(character, 0))
-						{
-							_coeficientBuilder.Append(character);
-							_state = SimplifierState.FractionalPartOfCorficient;
-						}
-						else
-						{
-							throw new Exception();
-						}
+						DotStateHandle(character);
 
 						break;
 					case SimplifierState.FractionalPartOfCorficient:
-						if (char.IsNumber(character, 0))
-						{
-							_coeficientBuilder.Append(character);
-						}
-						else if (char.IsLetter(character, 0))
-						{
-							_summand.Coeficient = double.Parse(_coeficientBuilder.ToString(), CultureInfo.InvariantCulture);
-							_coeficientBuilder.Clear();
-
-							_variable = new Variable(character, 1);
-
-							_state = SimplifierState.Variable;
-						}
-						else
-						{
-							throw new Exception();
-						}
+						FractionalPartOfCorficientStateHandle(character);
 
 						break;
 					case SimplifierState.CloseBracket:
-						if (character == CloseBracketSymbol)
-						{
-							_state = SimplifierState.CloseBracket;
-						}
-						else if (character == PlusSymbol || character == MinusSymbol || character == EqualSymbol)
-						{
-							_state = SimplifierState.None;
-						}
-						else
-						{
-							throw new Exception();
-						}
+						CloseBracketStateHandle(character);
 
 						break;
 					default:
@@ -292,6 +121,249 @@ namespace EquationSimplifier.Entities
 			_summand.Coeficient *= _variableSign;
 
 			return _summand;
+		}
+
+		private void CloseBracketStateHandle(string character)
+		{
+			if (character == CloseBracketSymbol)
+			{
+				_state = SimplifierState.CloseBracket;
+			}
+			else if (character == PlusSymbol || character == MinusSymbol || character == EqualSymbol)
+			{
+				_state = SimplifierState.None;
+			}
+			else
+			{
+				throw new Exception();
+			}
+		}
+
+		private void FractionalPartOfCorficientStateHandle(string character)
+		{
+			if (char.IsNumber(character, 0))
+			{
+				_coeficientBuilder.Append(character);
+			}
+			else if (char.IsLetter(character, 0))
+			{
+				_summand.Coeficient = double.Parse(_coeficientBuilder.ToString(), CultureInfo.InvariantCulture);
+				_coeficientBuilder.Clear();
+
+				_variable = new Variable(character, 1);
+
+				_state = SimplifierState.Variable;
+			}
+			else
+			{
+				throw new Exception();
+			}
+		}
+
+		private void DotStateHandle(string character)
+		{
+			if (char.IsNumber(character, 0))
+			{
+				_coeficientBuilder.Append(character);
+				_state = SimplifierState.FractionalPartOfCorficient;
+			}
+			else
+			{
+				throw new Exception();
+			}
+		}
+
+		private bool PowerCoeficientStateHandle(string character)
+		{
+			var summandDone = false;
+			if (char.IsNumber(character, 0))
+			{
+				_coeficientBuilder.Append(character);
+			}
+			else if (char.IsLetter(character, 0))
+			{
+				_variable.Power = int.Parse(_coeficientBuilder.ToString());
+				_coeficientBuilder.Clear();
+
+				_summand.Variables.Add(_variable);
+				_variable = new Variable(character, 1);
+
+				_state = SimplifierState.Variable;
+			}
+			else if (character == PlusSymbol || character == MinusSymbol || character == EqualSymbol)
+			{
+				_variable.Power = int.Parse(_coeficientBuilder.ToString());
+				_coeficientBuilder.Clear();
+
+				_summand.Variables.Add(_variable);
+
+				_state = SimplifierState.None;
+
+				summandDone = true;
+			}
+			else if (character == CloseBracketSymbol)
+			{
+				_variable.Power = int.Parse(_coeficientBuilder.ToString());
+				_coeficientBuilder.Clear();
+
+				_summand.Variables.Add(_variable);
+
+				_state = SimplifierState.CloseBracket;
+			}
+			else
+			{
+				throw new Exception();
+			}
+			return summandDone;
+		}
+
+		private void PowerStateHandle(string character)
+		{
+			if (char.IsNumber(character, 0))
+			{
+				_coeficientBuilder.Append(character);
+				_state = SimplifierState.PowerCoeficient;
+			}
+			else
+			{
+				throw new Exception();
+			}
+		}
+
+		private bool VariableStateHandle(string character)
+		{
+			var summandDone = false;
+			if (char.IsLetter(character, 0))
+			{
+				_summand.Variables.Add(_variable);
+				_variable = new Variable(character, 1);
+			}
+			else if (character == PowerSymbol)
+			{
+				_state = SimplifierState.Power;
+			}
+			else if (character == PlusSymbol || character == MinusSymbol || character == EqualSymbol)
+			{
+				_summand.Variables.Add(_variable);
+
+				_state = SimplifierState.None;
+
+				summandDone = true;
+			}
+			else if (character == CloseBracketSymbol)
+			{
+				_summand.Variables.Add(_variable);
+
+				_state = SimplifierState.CloseBracket;
+			}
+			else
+			{
+				throw new Exception();
+			}
+			return summandDone;
+		}
+
+		private void TheIntegerPartOfCoeficientOrZeroStateHandle(string character)
+		{
+			if (character == DotSymbol)
+			{
+				_coeficientBuilder.Append(character);
+				_state = SimplifierState.Dot;
+			}
+			else if (char.IsNumber(character, 0))
+			{
+				_coeficientBuilder.Append(character);
+				_state = SimplifierState.TheIntegerPartOfCoeficientOrZero;
+			}
+			else if (char.IsLetter(character, 0))
+			{
+				_summand.Coeficient = double.Parse(_coeficientBuilder.ToString());
+				_coeficientBuilder.Clear();
+
+				_variable = new Variable(character, 1);
+
+				_state = SimplifierState.Variable;
+			}
+			else
+			{
+				throw new Exception();
+			}
+		}
+
+		private void OpenBrackerStateHandle(string character)
+		{
+			if (character == OpenBracketSymbol)
+			{
+				_state = SimplifierState.OpenBracket;
+			}
+			else if (char.IsLetter(character, 0))
+			{
+				_variable = new Variable(character, 1);
+				_state = SimplifierState.Variable;
+			}
+			else if (char.IsNumber(character, 0))
+			{
+				_coeficientBuilder.Append(character);
+				_state = SimplifierState.TheIntegerPartOfCoeficientOrZero;
+			}
+			else if (character == MinusSymbol)
+			{
+				_variableSign *= -1;
+				_state = SimplifierState.Minus;
+			}
+			else
+			{
+				throw new Exception();
+			}
+		}
+
+		private void MinusStateHandle(string character)
+		{
+			if (char.IsNumber(character, 0))
+			{
+				_coeficientBuilder.Append(character);
+				_state = SimplifierState.TheIntegerPartOfCoeficientOrZero;
+			}
+			else if (char.IsLetter(character, 0))
+			{
+				_variable = new Variable(character, 1);
+				_state = SimplifierState.Variable;
+			}
+			else if (character == OpenBracketSymbol)
+			{
+				_state = SimplifierState.OpenBracket;
+			}
+			else
+			{
+				throw new Exception();
+			}
+		}
+
+		private void NoneStateHandle(string character)
+		{
+			if (character == MinusSymbol)
+			{
+				_variableSign *= -1;
+				_state = SimplifierState.Minus;
+			}
+			else if (char.IsNumber(character, 0))
+			{
+				_coeficientBuilder.Append(character);
+				_state = SimplifierState.TheIntegerPartOfCoeficientOrZero;
+			}
+			else if (char.IsLetter(character, 0))
+			{
+				_variable = new Variable(character, 1);
+				_state = SimplifierState.Variable;
+			}
+			else if (character == OpenBracketSymbol)
+			{
+				_state = SimplifierState.OpenBracket;
+			}
+			else
+			{
+				throw new Exception();
+			}
 		}
 	}
 }

@@ -287,13 +287,13 @@ namespace EquationSimplifier.Test
 		[Fact]
 		public void GetNextSummand_Minus4point2X2Y3EqualZero_Minus4point2X2Y3Returned()
 		{
-			var parser = new UserInputParser("4.2x^2y^3 = 0");
+			var parser = new UserInputParser("-4.2x^2y^3 = 0");
 			var writer = new ConsoleWriter();
 			var simplifier = new Simplifier(parser, writer);
 			var x2 = new Variable("x", 2);
 			var y3 = new Variable("y", 3);
 			var variables = new List<Variable> { x2, y3 };
-			var result = new Summand(4.2, variables);
+			var result = new Summand(-4.2, variables);
 
 			var summand = simplifier.GetNextSummand();
 
@@ -324,6 +324,83 @@ namespace EquationSimplifier.Test
 			var x = new Variable("x", 1);
 			var variables = new List<Variable> { x };
 			var result = new Summand(1, variables);
+
+			var summand = simplifier.GetNextSummand();
+
+			Assert.True(summand == result);
+		}
+
+		[Fact]
+		public void GetNextSummand_MinusMinusX3InBracketsEqualZero_X3Returned()
+		{
+			var parser = new UserInputParser("-(-(x^3)) = 0");
+			var writer = new ConsoleWriter();
+			var simplifier = new Simplifier(parser, writer);
+			var x = new Variable("x", 3);
+			var variables = new List<Variable> { x };
+			var result = new Summand(1, variables);
+
+			var summand = simplifier.GetNextSummand();
+
+			Assert.True(summand == result);
+		}
+
+		[Fact]
+		public void GetNextSummand_MinusX3InBracketsEqualZero_X3Returned()
+		{
+			var parser = new UserInputParser("-(-x^3) = 0");
+			var writer = new ConsoleWriter();
+			var simplifier = new Simplifier(parser, writer);
+			var x = new Variable("x", 3);
+			var variables = new List<Variable> { x };
+			var result = new Summand(1, variables);
+
+			var summand = simplifier.GetNextSummand();
+
+			Assert.True(summand == result);
+		}
+
+		[Fact]
+		public void GetNextSummand_MinusMinus4point2X2Y3InTwoBracketsEqualZero_Minus4point2X2Y3Returned()
+		{
+			var parser = new UserInputParser("-(-(4.2x^2y^3)) = 0");
+			var writer = new ConsoleWriter();
+			var simplifier = new Simplifier(parser, writer);
+			var x2 = new Variable("x", 2);
+			var y3 = new Variable("y", 3);
+			var variables = new List<Variable> { x2, y3 };
+			var result = new Summand(4.2, variables);
+
+			var summand = simplifier.GetNextSummand();
+
+			Assert.True(summand == result);
+		}
+
+		[Fact]
+		public void GetNextSummand_MinusMinus4point2X2Y3InOneBracketsEqualZero_Minus4point2X2Y3Returned()
+		{
+			var parser = new UserInputParser("-(-4.2x^2y^3) = 0");
+			var writer = new ConsoleWriter();
+			var simplifier = new Simplifier(parser, writer);
+			var x2 = new Variable("x", 2);
+			var y3 = new Variable("y", 3);
+			var variables = new List<Variable> { x2, y3 };
+			var result = new Summand(4.2, variables);
+
+			var summand = simplifier.GetNextSummand();
+
+			Assert.True(summand == result);
+		}
+
+		[Fact]
+		public void GetNextSummand_3Minus3Brackets24point654X72_Minus24point654X72Returned()
+		{
+			var parser = new UserInputParser("(-(-(-24.654x^72))) = 0");
+			var writer = new ConsoleWriter();
+			var simplifier = new Simplifier(parser, writer);
+			var x72 = new Variable("x", 72);
+			var variables = new List<Variable> { x72 };
+			var result = new Summand(-24.654, variables);
 
 			var summand = simplifier.GetNextSummand();
 
