@@ -28,6 +28,8 @@ namespace EquationSimplifier.Entities.Writers
 					Console.Write(Math.Abs(summand.Coeficient).ToString(CultureInfo.InvariantCulture));
 				}
 
+				summand.Variables.Sort();
+
 				foreach (var variable in summand.Variables)
 				{
 					Console.Write(variable.Name);
@@ -40,8 +42,13 @@ namespace EquationSimplifier.Entities.Writers
 
 				first = false;
 			}
+
+			if (list.Count == 0)
+			{
+				Console.Write("0");
+			}
 			
-			Console.Write(" = 0");
+			Console.WriteLine(" = 0");
 		}
 	}
 }

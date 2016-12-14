@@ -1,6 +1,8 @@
-﻿namespace EquationSimplifier.Entities
+﻿using System;
+
+namespace EquationSimplifier.Entities
 {
-	public struct Variable
+	public struct Variable : IComparable<Variable>
 	{
 		public string Name { get; set; }
 		public int Power { get; set; }
@@ -9,6 +11,11 @@
 		{
 			Name = name;
 			Power = power;
+		}
+
+		public int CompareTo(Variable other)
+		{
+			return Power.CompareTo(other.Power);
 		}
 	}
 }

@@ -1,15 +1,10 @@
 ﻿using System;
 using EquationSimplifier.Entities;
+using EquationSimplifier.Entities.Factories;
 
 namespace EquationSimplifier
-{
-	public enum ModeType
-	{
-		Mannual,
-		FromFile
-	}
-
-	partial class Program
+{ 
+	public class Program
 	{
 		static void Main(string[] args)
 		{
@@ -20,9 +15,16 @@ namespace EquationSimplifier
 				switch (options.Mode)
 				{
 					case "mannual":
-						Console.WriteLine("Please enter the equation:");
-						var equation = Console.ReadLine();
-						break;
+						while (true)
+						{
+							Console.WriteLine("Please enter the equation:");
+							var equation = Console.ReadLine();
+							var factory = new ConsoleInputFactory(equation);
+							var simplifier = new Simplifier(factory);
+
+							simplifier.Simplify();
+							simplifier.Write();
+						}
 					case "file":
 						var filepath = options.Path;
 						break;
@@ -31,25 +33,6 @@ namespace EquationSimplifier
 						Environment.Exit(1);
 						break;
 				}
-
-				//while (true)
-				//{
-					
-				//		switch (choise)
-				//		{
-				//			case ChooseType.Manually:
-								
-				//				break;
-				//			case ChooseType.FromAFile:
-								
-				//				break;
-				//			default:
-				//				choise = ChooseType.CantUnderstand;
-								
-				//				break;
-				//		}
-					
-				//}
 			}
 		}
 	}
