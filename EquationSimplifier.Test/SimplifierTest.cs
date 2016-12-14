@@ -550,6 +550,49 @@ namespace EquationSimplifier.Test
 			Assert.Equal(result, summand);
 		}
 
+		[Fact]
+		public void GetNextSummand_XXX_X3Returned()
+		{
+			var factory = new ConsoleInputFactory("xxx=0");
+			var simplifier = new Simplifier(factory);
+			var x3 = new Variable("x", 3);
+			var variables = new List<Variable> { x3 };
+			var result = new Summand(1, variables);
+
+			var summand = simplifier.GetNextSummand();
+
+			Assert.Equal(result, summand);
+		}
+
+		[Fact]
+		public void GetNextSummand_X1X2X3_X6Returned()
+		{
+			var factory = new ConsoleInputFactory("x^1x^2x^3=0");
+			var simplifier = new Simplifier(factory);
+			var x6 = new Variable("x", 6);
+			var variables = new List<Variable> { x6 };
+			var result = new Summand(1, variables);
+
+			var summand = simplifier.GetNextSummand();
+
+			Assert.Equal(result, summand);
+		}
+
+		[Fact]
+		public void GetNextSummand_X1Y2X3Y5_X4Y7Returned()
+		{
+			var factory = new ConsoleInputFactory("x^1y^2x^3y^5=0");
+			var simplifier = new Simplifier(factory);
+			var x3 = new Variable("x", 4);
+			var y7 = new Variable("y", 7);
+			var variables = new List<Variable> { x3, y7 };
+			var result = new Summand(1, variables);
+
+			var summand = simplifier.GetNextSummand();
+
+			Assert.Equal(result, summand);
+		}
+
 		#endregion
 
 		#region Simplify method tests
@@ -644,6 +687,46 @@ namespace EquationSimplifier.Test
 				new Variable("x", 1)
 			});
 			var y = new Summand(-1, new List<Variable>
+			{
+				new Variable("y", 1)
+			});
+			var result = new List<Summand> { x, y };
+
+			var summands = simplifier.Simplify();
+
+			Assert.Equal(result, summands);
+		}
+
+		[Fact]
+		public void Simplify_MinusXPlusYEqual0_ListWithXAndMinusYReturned()
+		{
+			var factory = new ConsoleInputFactory("-(x+y)=0");
+			var simplifier = new Simplifier(factory);
+			var x = new Summand(-1, new List<Variable>
+			{
+				new Variable("x", 1)
+			});
+			var y = new Summand(-1, new List<Variable>
+			{
+				new Variable("y", 1)
+			});
+			var result = new List<Summand> { x, y };
+
+			var summands = simplifier.Simplify();
+
+			Assert.Equal(result, summands);
+		}
+
+		[Fact]
+		public void Simplify_MinusXMinusYEqual0_ListWithXAndMinusYReturned()
+		{
+			var factory = new ConsoleInputFactory("-(x-y)=0");
+			var simplifier = new Simplifier(factory);
+			var x = new Summand(-1, new List<Variable>
+			{
+				new Variable("x", 1)
+			});
+			var y = new Summand(1, new List<Variable>
 			{
 				new Variable("y", 1)
 			});

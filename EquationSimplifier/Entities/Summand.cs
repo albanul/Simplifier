@@ -31,7 +31,24 @@ namespace EquationSimplifier.Entities
 			{
 				Variables.Remove(new Variable(string.Empty, 0));
 
-				Variables.Add(variable);
+				var found = false;
+
+				for (var i = 0; i < Variables.Count; i++)
+				{
+					var v = Variables[i];
+
+					if (v.Name == variable.Name)
+					{
+						Variables[i] = new Variable(v.Name, v.Power + variable.Power);
+						found = true;
+						break;
+					}
+				}
+
+				if (!found)
+				{
+					Variables.Add(variable);
+				}
 			}
 		}
 
