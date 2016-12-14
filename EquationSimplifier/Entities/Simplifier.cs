@@ -36,10 +36,14 @@ namespace EquationSimplifier.Entities
 		private SimplifierState _state;
 		private readonly IParser _parser;
 		private readonly IWriter _writer;
-		private List<Summand> _summands = new List<Summand>();
+		private readonly List<Summand> _summands = new List<Summand>();
 
 		private Variable _variable;
-		private short _variableSign = 1;
+		private int _currentSummandSign = 1;
+		private int _nextSummandSign = 1;
+		
+		private readonly Stack<int> _stackOfSigns = new Stack<int>();
+
 		private Summand _summand;
 
 		private readonly StringBuilder _coeficientBuilder;
@@ -54,22 +58,33 @@ namespace EquationSimplifier.Entities
 
 			_summand = new Summand(1, new List<Variable>());
 			_coeficientBuilder = new StringBuilder();
+			_stackOfSigns.Push(1);
+		}
+
+		public List<Summand> Simplify()
+		{
+			while (!_finished)
+			{
+				var summand = GetNextSummand();
+
+				// if coeficient != 0
+				if (Math.Abs(summand.Coeficient) > Eps)
+				{
+					// add new summand into colletion
+					_summands.Add(summand);
+				}
+			}
+
+			return _summands;
 		}
 
 		public Summand GetNextSummand()
 		{
-			_summands.Add(_summand);
 			var summandDone = false;
 
 			while (true)
 			{
 				var character = _parser.GetNextCharacter();
-
-				if (string.IsNullOrEmpty(character))
-				{
-					_finished = true;
-					break;
-				}
 
 				switch (_state)
 				{
@@ -120,25 +135,51 @@ namespace EquationSimplifier.Entities
 				if (_finished || summandDone) break;
 			}
 
-			_summand.Coeficient *= _variableSign;
+			// calculate correct sign of summand
+			//FixCoeficient()
+
+			// set sign for next summand
+			_currentSummandSign = _nextSummandSign;
+			_nextSummandSign = 1;
+			
 
 			// check if coeficient == 0 then make it a zero constant
 			if (Math.Abs(_summand.Coeficient) < Eps)
 			{
 				_summand.MakeConstant(0);
 			}
-			return _summand;
+
+			// remember link to summand
+			var summand = _summand;
+
+			// create new summand
+			_summand = new Summand(1, new List<Variable>());
+
+			return summand;
 		}
 
-		private void CloseBracketStateHandle(string character)
+		private void NoneStateHandle(string character)
 		{
-			if (character == CloseBracketSymbol)
+			if (character == MinusSymbol)
 			{
-				_state = SimplifierState.CloseBracket;
+				_currentSummandSign = -1;
+				_state = SimplifierState.Minus;
 			}
-			else if (character == PlusSymbol || character == MinusSymbol || character == EqualSymbol)
+			else if (char.IsNumber(character, 0))
 			{
-				_state = SimplifierState.None;
+				_coeficientBuilder.Append(character);
+				_state = SimplifierState.TheIntegerPartOfCoeficientOrZero;
+			}
+			else if (char.IsLetter(character, 0))
+			{
+				_variable = new Variable(character, 1);
+				_state = SimplifierState.Variable;
+			}
+			else if (character == OpenBracketSymbol)
+			{
+				_stackOfSigns.Push(_currentSummandSign * _stackOfSigns.Peek());
+				_currentSummandSign = 1;
+				_state = SimplifierState.OpenBracket;
 			}
 			else
 			{
@@ -161,6 +202,8 @@ namespace EquationSimplifier.Entities
 
 				_variable = new Variable(character, 1);
 
+				FixCoeficient();
+
 				_state = SimplifierState.Variable;
 			}
 			else if (character == PlusSymbol || character == MinusSymbol || character == EqualSymbol)
@@ -170,6 +213,8 @@ namespace EquationSimplifier.Entities
 
 				_variable = new Variable(string.Empty, 0);
 				_summand.AddVariable(ref _variable);
+
+				FixCoeficient();
 
 				summandDone = true;
 
@@ -183,9 +228,27 @@ namespace EquationSimplifier.Entities
 				_variable = new Variable(string.Empty, 0);
 				_summand.AddVariable(ref _variable);
 
+				// calculate correct sign of summand
+				FixCoeficient();
+
 				summandDone = true;
 
+				_stackOfSigns.Pop();
+
 				_state = SimplifierState.CloseBracket;
+			}
+			else if (string.IsNullOrEmpty(character))
+			{
+				_summand.Coeficient = double.Parse(_coeficientBuilder.ToString(), CultureInfo.InvariantCulture);
+				_coeficientBuilder.Clear();
+
+				_variable = new Variable(string.Empty, 0);
+				_summand.AddVariable(ref _variable);
+
+				summandDone = true;
+				_finished = true;
+
+				_state = SimplifierState.None;
 			}
 			else
 			{
@@ -230,6 +293,8 @@ namespace EquationSimplifier.Entities
 				_variable.Power = int.Parse(_coeficientBuilder.ToString());
 				_coeficientBuilder.Clear();
 
+				FixCoeficient();
+
 				_summand.AddVariable(ref _variable);
 
 				_state = SimplifierState.None;
@@ -243,7 +308,21 @@ namespace EquationSimplifier.Entities
 
 				_summand.AddVariable(ref _variable);
 
+				summandDone = true;
+
 				_state = SimplifierState.CloseBracket;
+			}
+			else if (string.IsNullOrEmpty(character))
+			{
+				_variable.Power = int.Parse(_coeficientBuilder.ToString());
+				_coeficientBuilder.Clear();
+
+				_summand.AddVariable(ref _variable);
+
+				summandDone = true;
+				_finished = true;
+
+				_state = SimplifierState.None;
 			}
 			else
 			{
@@ -268,7 +347,17 @@ namespace EquationSimplifier.Entities
 		private bool VariableStateHandle(string character)
 		{
 			var summandDone = false;
-			if (char.IsLetter(character, 0))
+
+			if (string.IsNullOrEmpty(character))
+			{
+				_summand.AddVariable(ref _variable);
+
+				summandDone = true;
+				_finished = true;
+
+				_state = SimplifierState.None;
+			}
+			else if (char.IsLetter(character, 0))
 			{
 				_summand.AddVariable(ref _variable);
 				_variable = new Variable(character, 1);
@@ -277,17 +366,34 @@ namespace EquationSimplifier.Entities
 			{
 				_state = SimplifierState.Power;
 			}
-			else if (character == PlusSymbol || character == MinusSymbol || character == EqualSymbol)
+			else if (character == PlusSymbol || character == EqualSymbol)
 			{
 				_summand.AddVariable(ref _variable);
 
+				summandDone = true;
+
 				_state = SimplifierState.None;
+			}
+			else if (character == MinusSymbol)
+			{
+				_summand.AddVariable(ref _variable);
+
+				_nextSummandSign = -1;
 
 				summandDone = true;
+
+				_state = SimplifierState.None;
 			}
 			else if (character == CloseBracketSymbol)
 			{
 				_summand.AddVariable(ref _variable);
+
+				// calculate correct sign of summand
+				FixCoeficient();
+
+				summandDone = true;
+
+				_stackOfSigns.Pop();
 
 				_state = SimplifierState.CloseBracket;
 			}
@@ -302,7 +408,22 @@ namespace EquationSimplifier.Entities
 		{
 			var summandDone = false;
 
-			if (character == DotSymbol)
+			if (string.IsNullOrEmpty(character))
+			{
+				_summand.Coeficient = double.Parse(_coeficientBuilder.ToString());
+				_coeficientBuilder.Clear();
+
+				FixCoeficient();
+
+				_variable = new Variable(string.Empty, 0);
+				_summand.AddVariable(ref _variable);
+
+				summandDone = true;
+				_finished = true;
+
+				_state = SimplifierState.None;
+			}
+			else if (character == DotSymbol)
 			{
 				_coeficientBuilder.Append(character);
 				_state = SimplifierState.Dot;
@@ -317,6 +438,8 @@ namespace EquationSimplifier.Entities
 				_summand.Coeficient = double.Parse(_coeficientBuilder.ToString());
 				_coeficientBuilder.Clear();
 
+				FixCoeficient();
+
 				_variable = new Variable(character, 1);
 
 				_state = SimplifierState.Variable;
@@ -325,6 +448,8 @@ namespace EquationSimplifier.Entities
 			{
 				_summand.Coeficient = double.Parse(_coeficientBuilder.ToString());
 				_coeficientBuilder.Clear();
+
+				FixCoeficient();
 
 				_variable = new Variable(string.Empty, 0);
 				_summand.AddVariable(ref _variable);
@@ -345,6 +470,8 @@ namespace EquationSimplifier.Entities
 		{
 			if (character == OpenBracketSymbol)
 			{
+				_stackOfSigns.Push(_currentSummandSign * _stackOfSigns.Peek());
+				_currentSummandSign = 1;
 				_state = SimplifierState.OpenBracket;
 			}
 			else if (char.IsLetter(character, 0))
@@ -359,8 +486,26 @@ namespace EquationSimplifier.Entities
 			}
 			else if (character == MinusSymbol)
 			{
-				_variableSign *= -1;
+				_currentSummandSign = -1;
 				_state = SimplifierState.Minus;
+			}
+			else
+			{
+				throw new Exception();
+			}
+		}
+
+		private void CloseBracketStateHandle(string character)
+		{
+			if (character == CloseBracketSymbol)
+			{
+				_stackOfSigns.Pop();
+				_state = SimplifierState.CloseBracket;
+			}
+			else if (character == PlusSymbol || character == MinusSymbol || character == EqualSymbol ||
+					string.IsNullOrEmpty(character))
+			{
+				_state = SimplifierState.None;
 			}
 			else
 			{
@@ -378,10 +523,13 @@ namespace EquationSimplifier.Entities
 			else if (char.IsLetter(character, 0))
 			{
 				_variable = new Variable(character, 1);
+				FixCoeficient();
 				_state = SimplifierState.Variable;
 			}
 			else if (character == OpenBracketSymbol)
 			{
+				_stackOfSigns.Push(_currentSummandSign * _stackOfSigns.Peek());
+				_currentSummandSign = 1;
 				_state = SimplifierState.OpenBracket;
 			}
 			else
@@ -390,31 +538,10 @@ namespace EquationSimplifier.Entities
 			}
 		}
 
-		private void NoneStateHandle(string character)
+		private void FixCoeficient()
 		{
-			if (character == MinusSymbol)
-			{
-				_variableSign *= -1;
-				_state = SimplifierState.Minus;
-			}
-			else if (char.IsNumber(character, 0))
-			{
-				_coeficientBuilder.Append(character);
-				_state = SimplifierState.TheIntegerPartOfCoeficientOrZero;
-			}
-			else if (char.IsLetter(character, 0))
-			{
-				_variable = new Variable(character, 1);
-				_state = SimplifierState.Variable;
-			}
-			else if (character == OpenBracketSymbol)
-			{
-				_state = SimplifierState.OpenBracket;
-			}
-			else
-			{
-				throw new Exception();
-			}
+			_summand.Coeficient *= _currentSummandSign * _stackOfSigns.Peek();
+			_currentSummandSign = 1;
 		}
 	}
 }

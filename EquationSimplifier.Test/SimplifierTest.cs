@@ -7,6 +7,8 @@ namespace EquationSimplifier.Test
 {
 	public class SimplifierTest
 	{
+		#region GetNextSummand method tests
+
 		[Fact]
 		public void GetNextSummand_XEqualZero_XReturned()
 		{
@@ -18,7 +20,7 @@ namespace EquationSimplifier.Test
 
 			var summand = simplifier.GetNextSummand();
 
-			Assert.True(summand == result);
+			Assert.Equal(result, summand);
 		}
 
 		[Fact]
@@ -32,7 +34,7 @@ namespace EquationSimplifier.Test
 
 			var summand = simplifier.GetNextSummand();
 
-			Assert.True(summand == result);
+			Assert.Equal(result, summand);
 		}
 
 		[Fact]
@@ -46,7 +48,7 @@ namespace EquationSimplifier.Test
 
 			var summand = simplifier.GetNextSummand();
 
-			Assert.True(summand == result);
+			Assert.Equal(result, summand);
 		}
 
 		[Fact]
@@ -60,7 +62,7 @@ namespace EquationSimplifier.Test
 
 			var summand = simplifier.GetNextSummand();
 
-			Assert.True(summand == result);
+			Assert.Equal(result, summand);
 		}
 
 		[Fact]
@@ -74,7 +76,7 @@ namespace EquationSimplifier.Test
 
 			var summand = simplifier.GetNextSummand();
 
-			Assert.True(summand == result);
+			Assert.Equal(result, summand);
 		}
 
 		[Fact]
@@ -88,7 +90,7 @@ namespace EquationSimplifier.Test
 
 			var summand = simplifier.GetNextSummand();
 
-			Assert.True(summand == result);
+			Assert.Equal(result, summand);
 		}
 
 		[Fact]
@@ -102,7 +104,7 @@ namespace EquationSimplifier.Test
 
 			var summand = simplifier.GetNextSummand();
 
-			Assert.True(summand == result);
+			Assert.Equal(result, summand);
 		}
 
 		[Fact]
@@ -116,7 +118,7 @@ namespace EquationSimplifier.Test
 
 			var summand = simplifier.GetNextSummand();
 
-			Assert.True(summand == result);
+			Assert.Equal(result, summand);
 		}
 
 		[Fact]
@@ -130,7 +132,7 @@ namespace EquationSimplifier.Test
 
 			var summand = simplifier.GetNextSummand();
 
-			Assert.True(summand == result);
+			Assert.Equal(result, summand);
 		}
 
 		[Fact]
@@ -144,7 +146,7 @@ namespace EquationSimplifier.Test
 
 			var summand = simplifier.GetNextSummand();
 
-			Assert.True(summand == result);
+			Assert.Equal(result, summand);
 		}
 
 		[Fact]
@@ -158,7 +160,7 @@ namespace EquationSimplifier.Test
 
 			var summand = simplifier.GetNextSummand();
 
-			Assert.True(summand == result);
+			Assert.Equal(result, summand);
 		}
 
 		[Fact]
@@ -172,7 +174,7 @@ namespace EquationSimplifier.Test
 
 			var summand = simplifier.GetNextSummand();
 
-			Assert.True(summand == result);
+			Assert.Equal(result, summand);
 		}
 
 		[Fact]
@@ -187,7 +189,7 @@ namespace EquationSimplifier.Test
 
 			var summand = simplifier.GetNextSummand();
 
-			Assert.True(summand == result);
+			Assert.Equal(result, summand);
 		}
 
 		[Fact]
@@ -202,7 +204,7 @@ namespace EquationSimplifier.Test
 
 			var summand = simplifier.GetNextSummand();
 
-			Assert.True(summand == result);
+			Assert.Equal(result, summand);
 		}
 
 		[Fact]
@@ -217,7 +219,7 @@ namespace EquationSimplifier.Test
 
 			var summand = simplifier.GetNextSummand();
 
-			Assert.True(summand == result);
+			Assert.Equal(result, summand);
 		}
 
 		[Fact]
@@ -232,7 +234,7 @@ namespace EquationSimplifier.Test
 
 			var summand = simplifier.GetNextSummand();
 
-			Assert.True(summand == result);
+			Assert.Equal(result, summand);
 		}
 
 		[Fact]
@@ -247,7 +249,7 @@ namespace EquationSimplifier.Test
 
 			var summand = simplifier.GetNextSummand();
 
-			Assert.True(summand == result);
+			Assert.Equal(result, summand);
 		}
 
 		[Fact]
@@ -262,7 +264,7 @@ namespace EquationSimplifier.Test
 
 			var summand = simplifier.GetNextSummand();
 
-			Assert.True(summand == result);
+			Assert.Equal(result, summand);
 		}
 
 		[Fact]
@@ -277,7 +279,7 @@ namespace EquationSimplifier.Test
 
 			var summand = simplifier.GetNextSummand();
 
-			Assert.True(summand == result);
+			Assert.Equal(result, summand);
 		}
 
 		[Fact]
@@ -291,7 +293,7 @@ namespace EquationSimplifier.Test
 
 			var summand = simplifier.GetNextSummand();
 
-			Assert.True(summand == result);
+			Assert.Equal(result, summand);
 		}
 
 		[Fact]
@@ -305,7 +307,7 @@ namespace EquationSimplifier.Test
 
 			var summand = simplifier.GetNextSummand();
 
-			Assert.True(summand == result);
+			Assert.Equal(result, summand);
 		}
 
 		[Fact]
@@ -319,7 +321,7 @@ namespace EquationSimplifier.Test
 
 			var summand = simplifier.GetNextSummand();
 
-			Assert.True(summand == result);
+			Assert.Equal(result, summand);
 		}
 
 		[Fact]
@@ -333,7 +335,7 @@ namespace EquationSimplifier.Test
 
 			var summand = simplifier.GetNextSummand();
 
-			Assert.True(summand == result);
+			Assert.Equal(result, summand);
 		}
 
 		[Fact]
@@ -348,7 +350,7 @@ namespace EquationSimplifier.Test
 
 			var summand = simplifier.GetNextSummand();
 
-			Assert.True(summand == result);
+			Assert.Equal(result, summand);
 		}
 
 		[Fact]
@@ -363,7 +365,7 @@ namespace EquationSimplifier.Test
 
 			var summand = simplifier.GetNextSummand();
 
-			Assert.True(summand == result);
+			Assert.Equal(result, summand);
 		}
 
 		[Fact]
@@ -377,7 +379,7 @@ namespace EquationSimplifier.Test
 
 			var summand = simplifier.GetNextSummand();
 
-			Assert.True(summand == result);
+			Assert.Equal(result, summand);
 		}
 
 		[Fact]
@@ -547,5 +549,111 @@ namespace EquationSimplifier.Test
 
 			Assert.Equal(result, summand);
 		}
+
+		#endregion
+
+		#region Simplify method tests
+
+		[Fact]
+		public void Simplify_XEqual0_ListWithXReturned()
+		{
+			var factory = new ConsoleInputFactory("x=0");
+			var simplifier = new Simplifier(factory);
+
+			var variables = new List<Variable> {new Variable("x", 1)};
+			var summand = new Summand(1, variables);
+			var result = new List<Summand> {summand};
+
+			var summands = simplifier.Simplify();
+
+			Assert.Equal(result, summands);
+		}
+
+		[Fact]
+		public void Simplify_XPlusYEqual0_ListWithXAndYReturned()
+		{
+			var factory = new ConsoleInputFactory("x+y=0");
+			var simplifier = new Simplifier(factory);
+			var x = new Summand(1, new List<Variable>
+			{
+				new Variable("x", 1)
+			});
+			var y = new Summand(1, new List<Variable>
+			{
+				new Variable("y", 1)
+			});
+			var result = new List<Summand> { x, y };
+
+			var summands = simplifier.Simplify();
+
+			Assert.Equal(result, summands);
+		}
+
+		[Fact]
+		public void Simplify_X1PlusY2Equal0_ListWithX1AndY2Returned()
+		{
+			var factory = new ConsoleInputFactory("x^1+y^2=0");
+			var simplifier = new Simplifier(factory);
+			var x = new Summand(1, new List<Variable>
+			{
+				new Variable("x", 1)
+			});
+			var y2 = new Summand(1, new List<Variable>
+			{
+				new Variable("y", 2)
+			});
+			var result = new List<Summand> { x, y2 };
+
+			var summands = simplifier.Simplify();
+
+			Assert.Equal(result, summands);
+		}
+
+		[Fact]
+		public void Simplify_X1PlusX2Y3PlusY2Equal0_ListWithX1AndX2Y3AndY2Returned()
+		{
+			var factory = new ConsoleInputFactory("x^1+x^2y^3+y^2=0");
+			var simplifier = new Simplifier(factory);
+			var x = new Summand(1, new List<Variable>
+			{
+				new Variable("x", 1)
+			});
+			var x2y3 = new Summand(1, new List<Variable>
+			{
+				new Variable("x", 2),
+				new Variable("y", 3)
+			});
+			var y2 = new Summand(1, new List<Variable>
+			{
+				new Variable("y", 2)
+			});
+			var result = new List<Summand> { x, x2y3, y2 };
+
+			var summands = simplifier.Simplify();
+
+			Assert.Equal(result, summands);
+		}
+
+		[Fact]
+		public void Simplify_XMinusYEqual0_ListWithXAndMinusYReturned()
+		{
+			var factory = new ConsoleInputFactory("x-y=0");
+			var simplifier = new Simplifier(factory);
+			var x = new Summand(1, new List<Variable>
+			{
+				new Variable("x", 1)
+			});
+			var y = new Summand(-1, new List<Variable>
+			{
+				new Variable("y", 1)
+			});
+			var result = new List<Summand> { x, y };
+
+			var summands = simplifier.Simplify();
+
+			Assert.Equal(result, summands);
+		}
+
+		#endregion
 	}
 }
