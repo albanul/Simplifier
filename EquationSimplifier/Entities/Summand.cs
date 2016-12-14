@@ -21,14 +21,16 @@ namespace EquationSimplifier.Entities
 			{
 				variable.Name = string.Empty;
 
-				// add variable only if we haven't it already
-				if (!Variables.Contains(variable))
+				// if there are no variables
+				if (Variables.Count == 0)
 				{
 					Variables.Add(variable);
 				}
 			}
 			else
 			{
+				Variables.Remove(new Variable(string.Empty, 0));
+
 				Variables.Add(variable);
 			}
 		}

@@ -479,6 +479,34 @@ namespace EquationSimplifier.Test
 		}
 
 		[Fact]
+		public void GetNextSummand_X0YEqualZero_YReturned()
+		{
+			var factory = new ConsoleInputFactory("x^0y=0");
+			var simplifier = new Simplifier(factory);
+			var y = new Variable("y", 1);
+			var variables = new List<Variable> { y };
+			var result = new Summand(1, variables);
+
+			var summand = simplifier.GetNextSummand();
+
+			Assert.Equal(result, summand);
+		}
+
+		[Fact]
+		public void GetNextSummand_X0Y1Z0EqualZero_YReturned()
+		{
+			var factory = new ConsoleInputFactory("x^0y^1z^0=0");
+			var simplifier = new Simplifier(factory);
+			var y = new Variable("y", 1);
+			var variables = new List<Variable> { y };
+			var result = new Summand(1, variables);
+
+			var summand = simplifier.GetNextSummand();
+
+			Assert.Equal(result, summand);
+		}
+
+		[Fact]
 		public void GetNextSummand_0X3Y1EqualZero_0Returned()
 		{
 			var factory = new ConsoleInputFactory("0x^3y^1=0");
