@@ -173,6 +173,7 @@ namespace EquationSimplifier.Entities
 			else if (char.IsLetter(character, 0))
 			{
 				_variable = new Variable(character, 1);
+				FixCoeficient();
 				_state = SimplifierState.Variable;
 			}
 			else if (character == OpenBracketSymbol)
