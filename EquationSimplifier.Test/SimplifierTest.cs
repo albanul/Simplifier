@@ -790,6 +790,18 @@ namespace EquationSimplifier.Test
 		}
 
 		[Fact]
+		public void Simplify_XMinusX_EmptyListReturned()
+		{
+			var factory = new ConsoleInputFactory("x-x=0");
+			var simplifier = new Simplifier(factory);
+			var result = new List<Summand>();
+
+			var summands = simplifier.Simplify();
+
+			Assert.Equal(result, summands);
+		}
+
+		[Fact]
 		public void Simplify_XMinusXPlusY_ListMinusYReturned()
 		{
 			var factory = new ConsoleInputFactory("x-(x+y)=0");
@@ -803,6 +815,67 @@ namespace EquationSimplifier.Test
 			var summands = simplifier.Simplify();
 
 			Assert.Equal(result, summands);
+		}
+
+		[Fact]
+		public void Simplify_XMinusXPlusYPlusY_EmptyListReturned()
+		{
+			var factory = new ConsoleInputFactory("x-(x+y)+y=0");
+			var simplifier = new Simplifier(factory);
+			var result = new List<Summand>();
+
+			var summands = simplifier.Simplify();
+
+			Assert.Equal(result, summands);
+		}
+
+		[Fact]
+		public void Simplify_SomeNumbersAndBrackets_ListWith1Returned()
+		{
+			var factory = new ConsoleInputFactory("1-(((1-3)-2-(1-3))-(1-3))=0");
+			var simplifier = new Simplifier(factory);
+			var result = new List<Summand>
+			{
+				new Summand(1, new List<Variable>())
+			};
+
+			var summands = simplifier.Simplify();
+
+			Assert.Equal(result, summands);
+		}
+
+		[Fact]
+		public void Simplify_SomeNumbersAndBrackets1_ListWith1Returned()
+		{
+			var factory = new ConsoleInputFactory("1.5-(-(-(1.5-35.3)))=0");
+			var simplifier = new Simplifier(factory);
+			var result = new List<Summand>
+			{
+				new Summand(35.3, new List<Variable>())
+			};
+
+			var summands = simplifier.Simplify();
+
+			Assert.Equal(result.Count, summands.Count);
+			Assert.Equal(result[0].Coeficient, summands[0].Coeficient);
+			Assert.True(result[0].EqualVariables(summands[0]));
+		}
+
+		[Fact]
+		public void Simplify_SomeNumbersAndBrackets2_ListWith1Returned()
+		{
+			var factory = new ConsoleInputFactory("1.55-(-(-(1.25-35.33)-2-(1.13-343.2))-(1.7-33.33))=0");
+			var simplifier = new Simplifier(factory);
+			var result = new List<Summand>
+			{
+				new Summand(344.07, new List<Variable>())
+			};
+
+			var summands = simplifier.Simplify();
+
+			Assert.Equal(result.Count, summands.Count);
+			Assert.Equal(result[0].Coeficient, summands[0].Coeficient);
+			Assert.True(result[0].EqualVariables(summands[0]));
 		}
 
 		#endregion
