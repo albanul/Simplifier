@@ -62,6 +62,14 @@ namespace EquationSimplifier.Entities
 			_stackOfSigns.Push(1);
 		}
 
+		public void Write()
+		{
+			if (_summand != null)
+			{
+				_writer.Write(_summands);
+			}
+		}
+
 		public List<Summand> Simplify()
 		{
 			while (!_finished)
@@ -94,6 +102,8 @@ namespace EquationSimplifier.Entities
 					}
 				}
 			}
+
+			_summands.Sort();
 
 			return _summands;
 		}
@@ -155,13 +165,9 @@ namespace EquationSimplifier.Entities
 				if (_finished || summandDone) break;
 			}
 
-			// calculate correct sign of summand
-			//FixCoeficient()
-
-			// set sign for next summand
+			// set sign for the next summand
 			_currentSummandSign = _nextSummandSign;
 			_nextSummandSign = 1;
-			
 
 			// check if coeficient == 0 then make it a zero constant
 			if (Math.Abs(_summand.Coeficient) < Eps)
@@ -169,7 +175,7 @@ namespace EquationSimplifier.Entities
 				_summand.MakeConstant(0);
 			}
 
-			// remember link to summand
+			// remember link to the summand
 			var summand = _summand;
 
 			// create new summand

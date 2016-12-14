@@ -634,7 +634,7 @@ namespace EquationSimplifier.Test
 		}
 
 		[Fact]
-		public void Simplify_X1PlusY2Equal0_ListWithX1AndY2Returned()
+		public void Simplify_X1PlusY2Equal0_ListWithY2AndX1Returned()
 		{
 			var factory = new ConsoleInputFactory("x^1+y^2=0");
 			var simplifier = new Simplifier(factory);
@@ -646,7 +646,7 @@ namespace EquationSimplifier.Test
 			{
 				new Variable("y", 2)
 			});
-			var result = new List<Summand> { x, y2 };
+			var result = new List<Summand> { y2, x };
 
 			var summands = simplifier.Simplify();
 
@@ -654,7 +654,7 @@ namespace EquationSimplifier.Test
 		}
 
 		[Fact]
-		public void Simplify_X1PlusX2Y3PlusY2Equal0_ListWithX1AndX2Y3AndY2Returned()
+		public void Simplify_X1PlusX2Y3PlusY2Equal0_ListWithX2Y3AndY2AndX1Returned()
 		{
 			var factory = new ConsoleInputFactory("x^1+x^2y^3+y^2=0");
 			var simplifier = new Simplifier(factory);
@@ -671,7 +671,7 @@ namespace EquationSimplifier.Test
 			{
 				new Variable("y", 2)
 			});
-			var result = new List<Summand> { x, x2y3, y2 };
+			var result = new List<Summand> { x2y3, y2, x };
 
 			var summands = simplifier.Simplify();
 
@@ -948,8 +948,6 @@ namespace EquationSimplifier.Test
 			};
 
 			var summands = simplifier.Simplify();
-
-			var str = SummandsToStringWriter.GetString(summands);
 
 			Assert.Equal(result, summands);
 		}

@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Xml.Schema;
 
 namespace EquationSimplifier.Entities
 {
-	public class Summand : IEquatable<Summand>
+	public class Summand : IEquatable<Summand>, IComparable<Summand>
 	{
 		public double Coeficient { get; set; }
 		public List<Variable> Variables { get; private set; }
@@ -98,6 +99,21 @@ namespace EquationSimplifier.Entities
 			{
 				return (Coeficient.GetHashCode() * 397) ^ (Variables?.GetHashCode() ?? 0);
 			}
+		}
+
+		public int CompareTo(Summand other)
+		{
+			var thisMaxPower = Variables.Max(v => v.Power);
+			var otherMaxPower = other.Variables.Max(v => v.Power);
+
+			var compare = otherMaxPower.CompareTo(thisMaxPower);
+
+			if (compare == 0)
+			{
+				compare = Variables.Count < other.Variables.Count ? 1 : -1;
+			}
+
+			return compare;
 		}
 	}
 }
