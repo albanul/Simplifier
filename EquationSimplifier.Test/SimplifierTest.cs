@@ -399,9 +399,23 @@ namespace EquationSimplifier.Test
 		{
 			var factory = new ConsoleInputFactory("0.5=0.5");
 			var simplifier = new Simplifier(factory);
-			var zero = new Variable(string.Empty, 0);
-			var variables = new List<Variable> { zero };
+			var half = new Variable(string.Empty, 0);
+			var variables = new List<Variable> { half };
 			var result = new Summand(0.5, variables);
+
+			var summand = simplifier.GetNextSummand();
+
+			Assert.Equal(result, summand);
+		}
+
+		[Fact]
+		public void GetNextSummand_X0EqualZero_1Returned()
+		{
+			var factory = new ConsoleInputFactory("x^0=0");
+			var simplifier = new Simplifier(factory);
+			var one = new Variable(string.Empty, 0);
+			var variables = new List<Variable> {one};
+			var result = new Summand(1, variables);
 
 			var summand = simplifier.GetNextSummand();
 

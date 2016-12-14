@@ -163,7 +163,7 @@ namespace EquationSimplifier.Entities
 				_coeficientBuilder.Clear();
 
 				_variable = new Variable(string.Empty, 0);
-				_summand.Variables.Add(_variable);
+				_summand.AddVariable(ref _variable);
 
 				summandDone = true;
 
@@ -202,7 +202,7 @@ namespace EquationSimplifier.Entities
 				_variable.Power = int.Parse(_coeficientBuilder.ToString());
 				_coeficientBuilder.Clear();
 
-				_summand.Variables.Add(_variable);
+				_summand.AddVariable(ref _variable);
 				_variable = new Variable(character, 1);
 
 				_state = SimplifierState.Variable;
@@ -212,7 +212,7 @@ namespace EquationSimplifier.Entities
 				_variable.Power = int.Parse(_coeficientBuilder.ToString());
 				_coeficientBuilder.Clear();
 
-				_summand.Variables.Add(_variable);
+				_summand.AddVariable(ref _variable);
 
 				_state = SimplifierState.None;
 
@@ -223,7 +223,7 @@ namespace EquationSimplifier.Entities
 				_variable.Power = int.Parse(_coeficientBuilder.ToString());
 				_coeficientBuilder.Clear();
 
-				_summand.Variables.Add(_variable);
+				_summand.AddVariable(ref _variable);
 
 				_state = SimplifierState.CloseBracket;
 			}
@@ -252,7 +252,7 @@ namespace EquationSimplifier.Entities
 			var summandDone = false;
 			if (char.IsLetter(character, 0))
 			{
-				_summand.Variables.Add(_variable);
+				_summand.AddVariable(ref _variable);
 				_variable = new Variable(character, 1);
 			}
 			else if (character == PowerSymbol)
@@ -261,7 +261,7 @@ namespace EquationSimplifier.Entities
 			}
 			else if (character == PlusSymbol || character == MinusSymbol || character == EqualSymbol)
 			{
-				_summand.Variables.Add(_variable);
+				_summand.AddVariable(ref _variable);
 
 				_state = SimplifierState.None;
 
@@ -269,7 +269,7 @@ namespace EquationSimplifier.Entities
 			}
 			else if (character == CloseBracketSymbol)
 			{
-				_summand.Variables.Add(_variable);
+				_summand.AddVariable(ref _variable);
 
 				_state = SimplifierState.CloseBracket;
 			}
@@ -309,7 +309,7 @@ namespace EquationSimplifier.Entities
 				_coeficientBuilder.Clear();
 
 				_variable = new Variable(string.Empty, 0);
-				_summand.Variables.Add(_variable);
+				_summand.AddVariable(ref _variable);
 
 				summandDone = true;
 
