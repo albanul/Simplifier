@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
+using EquationSimplifier.Entities.Factories;
 using EquationSimplifier.Entities.Parsers;
 using EquationSimplifier.Entities.Writers;
 
@@ -44,10 +45,10 @@ namespace EquationSimplifier.Entities
 
 		private bool _finished;
 
-		public Simplifier(IParser parser, IWriter writer, SimplifierState state = SimplifierState.None)
+		public Simplifier(BaseInputOutputFactory factory, SimplifierState state = SimplifierState.None)
 		{
-			_parser = parser;
-			_writer = writer;
+			_parser = factory.CreateParser();
+			_writer = factory.CreateWriter();
 			_state = state;
 
 			_summand = new Summand(1, new List<Variable>());

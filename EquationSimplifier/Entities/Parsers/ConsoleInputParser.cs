@@ -2,12 +2,12 @@
 
 namespace EquationSimplifier.Entities.Parsers
 {
-	public class UserInputParser : IParser
+	public class ConsoleInputParser : IParser
 	{
 		private readonly string _inputString;
 		private int _index = -1;
 
-		public UserInputParser(string inputString)
+		public ConsoleInputParser(string inputString)
 		{
 			if (string.IsNullOrEmpty(inputString))
 			{

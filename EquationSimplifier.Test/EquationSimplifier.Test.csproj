@@ -73,7 +73,7 @@
     <Compile Include="SimplifierTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SummandTest.cs" />
-    <Compile Include="UserInputParserTest.cs" />
+    <Compile Include="ConsoleInputParserTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -3,11 +3,11 @@ using Xunit;
 
 namespace EquationSimplifier.Test
 {
-	public class UserInputParserTest
+	public class ConsoleInputParserTest
 	{
 		private static void GetNextCharacter(string sourceValue, string result)
 		{
-			var parser = new UserInputParser(sourceValue);
+			var parser = new ConsoleInputParser(sourceValue);
 
 			var character = parser.GetNextCharacter();
 
@@ -51,7 +51,7 @@ namespace EquationSimplifier.Test
 		[Fact]
 		public void GetNextCharacter_TwoBracketsDividedByWhitespaces_TwoBracketsWithoutWhitespacesReturn()
 		{
-			var parser = new UserInputParser("     (             )    ");
+			var parser = new ConsoleInputParser("     (             )    ");
 
 			var character1 = parser.GetNextCharacter();
 			var character2 = parser.GetNextCharacter();

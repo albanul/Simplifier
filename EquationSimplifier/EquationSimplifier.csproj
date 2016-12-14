@@ -47,8 +47,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\Factories\BaseInputOutputFactory.cs" />
+    <Compile Include="Entities\Factories\ConsoleInputFactory.cs" />
     <Compile Include="Entities\Parsers\IParser.cs" />
-    <Compile Include="Entities\Parsers\UserInputParser.cs" />
+    <Compile Include="Entities\Parsers\ConsoleInputParser.cs" />
     <Compile Include="Entities\Simplifier.cs" />
     <Compile Include="Entities\Summand.cs" />
     <Compile Include="Entities\Variable.cs" />
