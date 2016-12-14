@@ -84,7 +84,7 @@ namespace EquationSimplifier.Entities
 
 						break;
 					case SimplifierState.TheIntegerPartOfCoeficientOrZero:
-						TheIntegerPartOfCoeficientOrZeroStateHandle(character);
+						summandDone = TheIntegerPartOfCoeficientOrZeroStateHandle(character);
 
 						break;
 					case SimplifierState.Variable:
@@ -104,7 +104,7 @@ namespace EquationSimplifier.Entities
 
 						break;
 					case SimplifierState.FractionalPartOfCorficient:
-						FractionalPartOfCorficientStateHandle(character);
+						summandDone = FractionalPartOfCorficientStateHandle(character);
 
 						break;
 					case SimplifierState.CloseBracket:
@@ -139,8 +139,10 @@ namespace EquationSimplifier.Entities
 			}
 		}
 
-		private void FractionalPartOfCorficientStateHandle(string character)
+		private bool FractionalPartOfCorficientStateHandle(string character)
 		{
+			var summandDone = false;
+
 			if (char.IsNumber(character, 0))
 			{
 				_coeficientBuilder.Append(character);
@@ -154,10 +156,24 @@ namespace EquationSimplifier.Entities
 
 				_state = SimplifierState.Variable;
 			}
+			else if (character == PlusSymbol || character == MinusSymbol || character == EqualSymbol)
+			{
+				_summand.Coeficient = double.Parse(_coeficientBuilder.ToString(), CultureInfo.InvariantCulture);
+				_coeficientBuilder.Clear();
+
+				_variable = new Variable(string.Empty, 0);
+				_summand.Variables.Add(_variable);
+
+				summandDone = true;
+
+				_state = SimplifierState.None;
+			}
 			else
 			{
 				throw new Exception();
 			}
+
+			return summandDone;
 		}
 
 		private void DotStateHandle(string character)
@@ -263,8 +279,10 @@ namespace EquationSimplifier.Entities
 			return summandDone;
 		}
 
-		private void TheIntegerPartOfCoeficientOrZeroStateHandle(string character)
+		private bool TheIntegerPartOfCoeficientOrZeroStateHandle(string character)
 		{
+			var summandDone = false;
+
 			if (character == DotSymbol)
 			{
 				_coeficientBuilder.Append(character);
@@ -284,10 +302,24 @@ namespace EquationSimplifier.Entities
 
 				_state = SimplifierState.Variable;
 			}
+			else if (character == PlusSymbol || character == MinusSymbol || character == EqualSymbol)
+			{
+				_summand.Coeficient = double.Parse(_coeficientBuilder.ToString());
+				_coeficientBuilder.Clear();
+
+				_variable = new Variable(string.Empty, 0);
+				_summand.Variables.Add(_variable);
+
+				summandDone = true;
+
+				_state = SimplifierState.None;
+			}
 			else
 			{
 				throw new Exception();
 			}
+
+			return summandDone;
 		}
 
 		private void OpenBrackerStateHandle(string character)

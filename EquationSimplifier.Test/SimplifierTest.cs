@@ -406,5 +406,35 @@ namespace EquationSimplifier.Test
 
 			Assert.True(summand == result);
 		}
+
+		[Fact]
+		public void GetNextSumman_ZeroEqualZero_ZeroReturned()
+		{
+			var parser = new UserInputParser("0=0");
+			var writer = new ConsoleWriter();
+			var simplifier = new Simplifier(parser, writer);
+			var zero = new Variable(string.Empty, 0);
+			var variables = new List<Variable> {zero};
+			var result = new Summand(0, variables);
+
+			var summand = simplifier.GetNextSummand();
+
+			Assert.Equal(result, summand);
+		}
+
+		[Fact]
+		public void GetNextSumman_Zeropoint5EqualZero_Zeropoint5Returned()
+		{
+			var parser = new UserInputParser("0.5=0.5");
+			var writer = new ConsoleWriter();
+			var simplifier = new Simplifier(parser, writer);
+			var zero = new Variable(string.Empty, 0);
+			var variables = new List<Variable> { zero };
+			var result = new Summand(0.5, variables);
+
+			var summand = simplifier.GetNextSummand();
+
+			Assert.Equal(result, summand);
+		}
 	}
 }
