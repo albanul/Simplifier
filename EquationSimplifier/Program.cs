@@ -33,7 +33,20 @@ namespace EquationSimplifier
 							}
 						}
 					case "file":
-						var filepath = options.Path;
+						try
+						{
+							var filepath = options.Path;
+							var factory = new FileInputFactory(filepath);
+							var simplifier = new Simplifier(factory);
+
+							simplifier.Simplify();
+							simplifier.Write();
+						}
+						catch (Exception)
+						{
+							Console.WriteLine("Sorry, incorrect equation.");
+						}
+						
 						break;
 					default:
 						Console.WriteLine(@"Sorry, unsupported --mode value. Use ""mannual"" or ""file"".");

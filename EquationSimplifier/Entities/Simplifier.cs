@@ -52,7 +52,7 @@ namespace EquationSimplifier.Entities
 		private bool _finished;
 		private bool _equalSymbolPassed;
 
-		public Simplifier(BaseInputOutputFactory factory, SimplifierState state = SimplifierState.None)
+		public Simplifier(BaseInputFactory factory, SimplifierState state = SimplifierState.None)
 		{
 			_parser = factory.CreateParser();
 			_writer = factory.CreateWriter();

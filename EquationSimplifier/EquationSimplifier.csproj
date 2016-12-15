@@ -47,8 +47,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Entities\Factories\BaseInputOutputFactory.cs" />
+    <Compile Include="Entities\Factories\BaseInputFactory.cs" />
     <Compile Include="Entities\Factories\ConsoleInputFactory.cs" />
+    <Compile Include="Entities\Factories\FileInputFactory.cs" />
+    <Compile Include="Entities\Parsers\FileInputParser.cs" />
     <Compile Include="Entities\Parsers\IParser.cs" />
     <Compile Include="Entities\Parsers\ConsoleInputParser.cs" />
     <Compile Include="Entities\Simplifier.cs" />
@@ -56,6 +58,7 @@
     <Compile Include="Entities\Variable.cs" />
     <Compile Include="Entities\Writers\ConsoleWriter.cs" />
     <Compile Include="Entities\SummandsToStringWriter.cs" />
+    <Compile Include="Entities\Writers\FileWriter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Entities\Options.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -64,6 +67,11 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="input.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

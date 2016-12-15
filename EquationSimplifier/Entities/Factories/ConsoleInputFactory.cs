@@ -4,7 +4,7 @@ using EquationSimplifier.Entities.Writers;
 
 namespace EquationSimplifier.Entities.Factories
 {
-	public class ConsoleInputFactory : BaseInputOutputFactory
+	public class ConsoleInputFactory : BaseInputFactory
 	{
 		private readonly string _inputString;
 
