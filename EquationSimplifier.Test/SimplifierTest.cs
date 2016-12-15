@@ -910,13 +910,13 @@ namespace EquationSimplifier.Test
 			var simplifier = new Simplifier(factory);
 			var result = new List<Summand>
 			{
-				new Summand(1, new List<Variable>
-				{
-					new Variable("y", 1)
-				}),
 				new Summand(2, new List<Variable>
 				{
 					new Variable("x", 1)
+				}),
+				new Summand(1, new List<Variable>
+				{
+					new Variable("y", 1)
 				})
 			};
 
@@ -964,6 +964,30 @@ namespace EquationSimplifier.Test
 					new Variable("y", 2)
 				})
 			};
+
+			var summands = simplifier.Simplify();
+
+			Assert.Equal(result, summands);
+		}
+
+		[Fact]
+		public void Simplify_ZeroEqualZero_EmptyListReturned()
+		{
+			var factory = new ConsoleInputFactory("0=0");
+			var simplifier = new Simplifier(factory);
+			var result = new List<Summand>();
+
+			var summands = simplifier.Simplify();
+
+			Assert.Equal(result, summands);
+		}
+
+		[Fact]
+		public void Simplify_1point2Equal1point2_EmptyListReturned()
+		{
+			var factory = new ConsoleInputFactory("1.2=1.2");
+			var simplifier = new Simplifier(factory);
+			var result = new List<Summand>();
 
 			var summands = simplifier.Simplify();
 

@@ -140,7 +140,7 @@ namespace EquationSimplifier.Entities
 
 						break;
 					case SimplifierState.TheIntegerPartOfCoeficientOrZero:
-						summandDone = TheIntegerPartOfCoeficientOrZeroStateHandle(character);
+						summandDone = IntegerPartOfCoeficientStateHandle(character);
 
 						break;
 					case SimplifierState.Variable:
@@ -238,7 +238,27 @@ namespace EquationSimplifier.Entities
 		{
 			var summandDone = false;
 
-			if (char.IsNumber(character, 0))
+			if (string.IsNullOrEmpty(character))
+			{
+				if (!_equalSymbolPassed)
+				{
+					throw new Exception();
+				}
+
+				_summand.Coeficient = double.Parse(_coeficientBuilder.ToString(), CultureInfo.InvariantCulture);
+				_coeficientBuilder.Clear();
+
+				FixCoeficient();
+
+				_variable = new Variable(string.Empty, 0);
+				_summand.AddVariable(ref _variable);
+
+				summandDone = true;
+				_finished = true;
+
+				_state = SimplifierState.None;
+			}
+			else if (char.IsNumber(character, 0))
 			{
 				_coeficientBuilder.Append(character);
 			}
@@ -314,19 +334,6 @@ namespace EquationSimplifier.Entities
 				_stackOfSigns.Pop();
 
 				_state = SimplifierState.CloseBracket;
-			}
-			else if (string.IsNullOrEmpty(character))
-			{
-				_summand.Coeficient = double.Parse(_coeficientBuilder.ToString(), CultureInfo.InvariantCulture);
-				_coeficientBuilder.Clear();
-
-				_variable = new Variable(string.Empty, 0);
-				_summand.AddVariable(ref _variable);
-
-				summandDone = true;
-				_finished = true;
-
-				_state = SimplifierState.None;
 			}
 			else
 			{
@@ -526,12 +533,17 @@ namespace EquationSimplifier.Entities
 			return summandDone;
 		}
 
-		private bool TheIntegerPartOfCoeficientOrZeroStateHandle(string character)
+		private bool IntegerPartOfCoeficientStateHandle(string character)
 		{
 			var summandDone = false;
 
 			if (string.IsNullOrEmpty(character))
 			{
+				if (!_equalSymbolPassed)
+				{
+					throw new Exception();
+				}
+
 				_summand.Coeficient = double.Parse(_coeficientBuilder.ToString());
 				_coeficientBuilder.Clear();
 
