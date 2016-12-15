@@ -15,7 +15,7 @@ namespace EquationSimplifier.Entities
 
 		public int CompareTo(Variable other)
 		{
-			return Power.CompareTo(other.Power);
+			return other.Power.CompareTo(Power);
 		}
 	}
 }

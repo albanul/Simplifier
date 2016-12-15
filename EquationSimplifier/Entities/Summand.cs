@@ -115,7 +115,7 @@ namespace EquationSimplifier.Entities
 
 			if (compare == 0)
 			{
-				compare = other.Coeficient.CompareTo(Coeficient);
+				compare = Math.Abs(other.Coeficient).CompareTo(Math.Abs(Coeficient));
 			}
 
 			return compare;
