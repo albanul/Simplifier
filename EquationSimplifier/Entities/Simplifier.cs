@@ -30,7 +30,8 @@ namespace EquationSimplifier.Entities
 			PowerCoeficient,
 			OpenBracket,
 			CloseBracket,
-			Minus
+			Minus,
+			MinusPower
 		}
 
 		private SimplifierState _state;
@@ -156,6 +157,9 @@ namespace EquationSimplifier.Entities
 						summandDone = CloseBracketStateHandle(character);
 
 						break;
+					case SimplifierState.MinusPower:
+						MinusPowerStateHanlder(character);
+						break;
 					default:
 						throw new Exception("Unhandle simplifier state");
 				}
@@ -180,6 +184,23 @@ namespace EquationSimplifier.Entities
 			_summand = new Summand(1, new List<Variable>());
 
 			return summand;
+		}
+
+		private void MinusPowerStateHanlder(string character)
+		{
+			if (string.IsNullOrEmpty(character))
+			{
+				throw new SyntaxException();
+			}
+			else if (char.IsNumber(character, 0))
+			{
+				_coeficientBuilder.Append(character);
+				_state = SimplifierState.PowerCoeficient;
+			}
+			else
+			{
+				throw new SyntaxException();
+			}
 		}
 
 		private bool NoneStateHandle(string character)
@@ -449,6 +470,11 @@ namespace EquationSimplifier.Entities
 				_coeficientBuilder.Append(character);
 				_state = SimplifierState.PowerCoeficient;
 			}
+			else if (character == MinusSymbol)
+			{
+				_coeficientBuilder.Append(character);
+				_state = SimplifierState.MinusPower;
+			}
 			else
 			{
 				throw new SyntaxException();
@@ -622,7 +648,8 @@ namespace EquationSimplifier.Entities
 
 				_stackOfSigns.Pop();
 
-				_variable = new Variable(character, 1);
+				_variable = new Variable(string.Empty, 0);
+				_summand.AddVariable(ref _variable);
 
 				summandDone = true;
 

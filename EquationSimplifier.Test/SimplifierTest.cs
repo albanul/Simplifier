@@ -850,7 +850,10 @@ namespace EquationSimplifier.Test
 			var simplifier = new Simplifier(factory);
 			var result = new List<Summand>
 			{
-				new Summand(1, new List<Variable>())
+				new Summand(1, new List<Variable>
+				{
+					new Variable(string.Empty, 0)
+				})
 			};
 
 			var summands = simplifier.Simplify();
@@ -865,14 +868,15 @@ namespace EquationSimplifier.Test
 			var simplifier = new Simplifier(factory);
 			var result = new List<Summand>
 			{
-				new Summand(35.3, new List<Variable>())
+				new Summand(35.3, new List<Variable>
+				{
+					new Variable(string.Empty, 0)
+				})
 			};
 
 			var summands = simplifier.Simplify();
 
-			Assert.Equal(result.Count, summands.Count);
-			Assert.Equal(result[0].Coeficient, summands[0].Coeficient);
-			Assert.True(result[0].EqualVariables(summands[0]));
+			Assert.Equal(result, summands);
 		}
 
 		[Fact]
@@ -882,14 +886,15 @@ namespace EquationSimplifier.Test
 			var simplifier = new Simplifier(factory);
 			var result = new List<Summand>
 			{
-				new Summand(344.07, new List<Variable>())
+				new Summand(344.07, new List<Variable>
+				{
+					new Variable(string.Empty, 0)
+				})
 			};
 
 			var summands = simplifier.Simplify();
 
-			Assert.Equal(result.Count, summands.Count);
-			Assert.Equal(result[0].Coeficient, summands[0].Coeficient);
-			Assert.True(result[0].EqualVariables(summands[0]));
+			Assert.Equal(result, summands);
 		}
 
 		[Fact]
