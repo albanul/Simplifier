@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using EquationSimplifier.Entities;
 using EquationSimplifier.Entities.Factories;
 
@@ -27,9 +28,13 @@ namespace EquationSimplifier
 								var summands = simplifier.Simplify();
 								writer.Write(summands);
 							}
-							catch (Exception)
+							catch (SyntaxException)
 							{
 								Console.WriteLine("Sorry, incorrect equation. Try again.");
+							}
+							catch (Exception)
+							{
+								Console.WriteLine("Sorry, something went wrong. Try again.");
 							}
 						}
 					case "file":
@@ -43,15 +48,22 @@ namespace EquationSimplifier
 							var summands = simplifier.Simplify();
 							writer.Write(summands);
 						}
-						catch (Exception)
+						catch (SyntaxException)
 						{
 							Console.WriteLine("Sorry, incorrect equation.");
 						}
-						
+						catch (FileNotFoundException)
+						{
+							Console.WriteLine("Sorry, can't find file to open.");
+						}
+						catch (Exception)
+						{
+							Console.WriteLine("Sorry, something went wrong.");
+						}
+
 						break;
 					default:
 						Console.WriteLine(@"Sorry, unsupported --mode value. Use ""mannual"" or ""file"".");
-						Environment.Exit(1);
 						break;
 				}
 			}

@@ -191,7 +191,7 @@ namespace EquationSimplifier.Entities
 				//_summand.Coeficient = 0;
 				//summandDone = true;
 				//_finished = true;
-				throw new Exception();
+				throw new SyntaxException();
 			}
 			else if (character == MinusSymbol)
 			{
@@ -217,7 +217,7 @@ namespace EquationSimplifier.Entities
 			}
 			else
 			{
-				throw new Exception();
+				throw new SyntaxException();
 			}
 
 			return summandDone;
@@ -231,7 +231,7 @@ namespace EquationSimplifier.Entities
 			{
 				if (!_equalSymbolPassed)
 				{
-					throw new Exception();
+					throw new SyntaxException();
 				}
 
 				_summand.Coeficient = double.Parse(_coeficientBuilder.ToString(), CultureInfo.InvariantCulture);
@@ -326,7 +326,7 @@ namespace EquationSimplifier.Entities
 			}
 			else
 			{
-				throw new Exception();
+				throw new SyntaxException();
 			}
 
 			return summandDone;
@@ -336,7 +336,7 @@ namespace EquationSimplifier.Entities
 		{
 			if (_stackOfSigns.Count > 1)
 			{
-				throw new Exception();
+				throw new SyntaxException();
 			}
 			_stackOfSigns.Pop();
 			_stackOfSigns.Push(-1);
@@ -353,7 +353,7 @@ namespace EquationSimplifier.Entities
 			}
 			else
 			{
-				throw new Exception();
+				throw new SyntaxException();
 			}
 		}
 
@@ -437,7 +437,7 @@ namespace EquationSimplifier.Entities
 			}
 			else
 			{
-				throw new Exception();
+				throw new SyntaxException();
 			}
 			return summandDone;
 		}
@@ -451,7 +451,7 @@ namespace EquationSimplifier.Entities
 			}
 			else
 			{
-				throw new Exception();
+				throw new SyntaxException();
 			}
 		}
 
@@ -517,7 +517,7 @@ namespace EquationSimplifier.Entities
 			}
 			else
 			{
-				throw new Exception();
+				throw new SyntaxException();
 			}
 			return summandDone;
 		}
@@ -530,7 +530,7 @@ namespace EquationSimplifier.Entities
 			{
 				if (!_equalSymbolPassed)
 				{
-					throw new Exception();
+					throw new SyntaxException();
 				}
 
 				_summand.Coeficient = double.Parse(_coeficientBuilder.ToString());
@@ -630,7 +630,7 @@ namespace EquationSimplifier.Entities
 			}
 			else
 			{
-				throw new Exception();
+				throw new SyntaxException();
 			}
 
 			return summandDone;
@@ -662,7 +662,7 @@ namespace EquationSimplifier.Entities
 			}
 			else
 			{
-				throw new Exception();
+				throw new SyntaxException();
 			}
 		}
 
@@ -674,7 +674,7 @@ namespace EquationSimplifier.Entities
 			{
 				if (!_equalSymbolPassed || _stackOfSigns.Count > 1)
 				{
-					throw new Exception();
+					throw new SyntaxException();
 				}
 
 				_summand.Coeficient = 0;
@@ -689,7 +689,7 @@ namespace EquationSimplifier.Entities
 			{
 				if (_stackOfSigns.Count == 1)
 				{
-					throw new Exception();
+					throw new SyntaxException();
 				}
 
 				_stackOfSigns.Pop();
@@ -713,7 +713,7 @@ namespace EquationSimplifier.Entities
 			}
 			else
 			{
-				throw new Exception();
+				throw new SyntaxException();
 			}
 
 			return summandDone;
@@ -740,7 +740,7 @@ namespace EquationSimplifier.Entities
 			}
 			else
 			{
-				throw new Exception();
+				throw new SyntaxException();
 			}
 		}
 
