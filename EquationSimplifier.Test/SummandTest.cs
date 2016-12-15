@@ -80,6 +80,17 @@ namespace EquationSimplifier.Test
 		}
 
 		[Fact]
+		public void Equals_1point2_1point2_TrueReturned()
+		{
+			var constant = new Variable(string.Empty, 0);
+
+			var first = new Summand(1.2, new List<Variable> {constant});
+			var second = new Summand(1.2, new List<Variable> { constant });
+
+			Assert.Equal(first, second);
+		}
+
+		[Fact]
 		public void Equals_X1_Null_FalseReturned()
 		{
 			var x1 = new Variable("x", 1);
