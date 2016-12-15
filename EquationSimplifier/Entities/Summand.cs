@@ -42,7 +42,8 @@ namespace EquationSimplifier.Entities
 
 					if (v.Name == variable.Name)
 					{
-						Variables[i] = new Variable(v.Name, v.Power + variable.Power);
+						var power = v.Power + variable.Power;
+						Variables[i] = new Variable(power == 0 ? string.Empty : v.Name, power);
 						found = true;
 						break;
 					}
