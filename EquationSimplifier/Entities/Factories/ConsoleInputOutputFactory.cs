@@ -1,14 +1,13 @@
-﻿using System;
-using EquationSimplifier.Entities.Parsers;
+﻿using EquationSimplifier.Entities.Parsers;
 using EquationSimplifier.Entities.Writers;
 
 namespace EquationSimplifier.Entities.Factories
 {
-	public class ConsoleInputFactory : BaseInputFactory
+	public class ConsoleInputOutputFactory : BaseInputOutputFactory
 	{
 		private readonly string _inputString;
 
-		public ConsoleInputFactory(string inputString)
+		public ConsoleInputOutputFactory(string inputString)
 		{
 			_inputString = inputString;
 		}

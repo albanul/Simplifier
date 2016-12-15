@@ -4,6 +4,6 @@ namespace EquationSimplifier.Entities.Writers
 {
 	public interface IWriter
 	{
-		void Write(List<Summand> list);
+		void Write(ICollection<Summand> list);
 	}
 }

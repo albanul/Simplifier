@@ -3,7 +3,7 @@ using EquationSimplifier.Entities.Writers;
 
 namespace EquationSimplifier.Entities.Factories
 {
-	public abstract class BaseInputFactory
+	public abstract class BaseInputOutputFactory
 	{
 		public abstract IParser CreateParser();
 

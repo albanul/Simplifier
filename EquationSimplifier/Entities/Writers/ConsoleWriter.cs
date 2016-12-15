@@ -7,7 +7,7 @@ namespace EquationSimplifier.Entities.Writers
 {
 	public class ConsoleWriter : IWriter
 	{
-		public void Write(List<Summand> list)
+		public void Write(ICollection<Summand> list)
 		{
 			var first = true;
 

@@ -7,9 +7,11 @@ namespace EquationSimplifier.Entities.Writers
 {
 	class FileWriter : IWriter
 	{
-		public void Write(List<Summand> list)
+		private const string OutputPath = "a.out";
+
+		public void Write(ICollection<Summand> list)
 		{
-			using (var sw = new StreamWriter("a.out"))
+			using (var sw = new StreamWriter(OutputPath))
 			{
 				var first = true;
 

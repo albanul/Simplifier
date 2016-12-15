@@ -19,13 +19,13 @@ namespace EquationSimplifier
 						{
 							Console.WriteLine("Please enter the equation:");
 							var equation = Console.ReadLine();
-							var factory = new ConsoleInputFactory(equation);
+							var factory = new ConsoleInputOutputFactory(equation);
 							var simplifier = new Simplifier(factory);
-
+							var writer = new SummandWriter(factory);
 							try
 							{
-								simplifier.Simplify();
-								simplifier.Write();
+								var summands = simplifier.Simplify();
+								writer.Write(summands);
 							}
 							catch (Exception)
 							{
@@ -36,11 +36,12 @@ namespace EquationSimplifier
 						try
 						{
 							var filepath = options.Path;
-							var factory = new FileInputFactory(filepath);
+							var factory = new FileInputOutputFactory(filepath);
 							var simplifier = new Simplifier(factory);
+							var writer = new SummandWriter(factory);
 
-							simplifier.Simplify();
-							simplifier.Write();
+							var summands = simplifier.Simplify();
+							writer.Write(summands);
 						}
 						catch (Exception)
 						{

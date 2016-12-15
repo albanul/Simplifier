@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text;
 using EquationSimplifier.Entities.Factories;
 using EquationSimplifier.Entities.Parsers;
-using EquationSimplifier.Entities.Writers;
 
 namespace EquationSimplifier.Entities
 {
@@ -36,7 +35,6 @@ namespace EquationSimplifier.Entities
 
 		private SimplifierState _state;
 		private readonly IParser _parser;
-		private readonly IWriter _writer;
 		private readonly List<Summand> _summands = new List<Summand>();
 
 		private Variable _variable;
@@ -52,23 +50,14 @@ namespace EquationSimplifier.Entities
 		private bool _finished;
 		private bool _equalSymbolPassed;
 
-		public Simplifier(BaseInputFactory factory, SimplifierState state = SimplifierState.None)
+		public Simplifier(BaseInputOutputFactory factory, SimplifierState state = SimplifierState.None)
 		{
 			_parser = factory.CreateParser();
-			_writer = factory.CreateWriter();
 			_state = state;
 
 			_summand = new Summand(1, new List<Variable>());
 			_coeficientBuilder = new StringBuilder();
 			_stackOfSigns.Push(1);
-		}
-
-		public void Write()
-		{
-			if (_summand != null)
-			{
-				_writer.Write(_summands);
-			}
 		}
 
 		public List<Summand> Simplify()

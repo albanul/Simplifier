@@ -3,11 +3,11 @@ using EquationSimplifier.Entities.Writers;
 
 namespace EquationSimplifier.Entities.Factories
 {
-	class FileInputFactory : BaseInputFactory
+	public class FileInputOutputFactory : BaseInputOutputFactory
 	{
 		private readonly string _filepath;
 
-		public FileInputFactory(string filepath)
+		public FileInputOutputFactory(string filepath)
 		{
 			_filepath = filepath;
 		}
