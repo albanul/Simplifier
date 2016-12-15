@@ -48,7 +48,7 @@ namespace EquationSimplifier.Entities.Writers
 					{
 						sw.Write(variable.Name);
 
-						if (variable.Power > 1)
+						if (variable.Power != 1 || variable.Power != 0)
 						{
 							sw.Write($"^{variable.Power}");
 						}
