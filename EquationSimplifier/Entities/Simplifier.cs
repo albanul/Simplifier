@@ -198,9 +198,10 @@ namespace EquationSimplifier.Entities
 
 			if (string.IsNullOrEmpty(character))
 			{
-				_summand.Coeficient = 0;
-				summandDone = true;
-				_finished = true;
+				//_summand.Coeficient = 0;
+				//summandDone = true;
+				//_finished = true;
+				throw new Exception();
 			}
 			else if (character == MinusSymbol)
 			{

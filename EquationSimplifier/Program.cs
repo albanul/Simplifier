@@ -22,8 +22,15 @@ namespace EquationSimplifier
 							var factory = new ConsoleInputFactory(equation);
 							var simplifier = new Simplifier(factory);
 
-							simplifier.Simplify();
-							simplifier.Write();
+							try
+							{
+								simplifier.Simplify();
+								simplifier.Write();
+							}
+							catch (Exception)
+							{
+								Console.WriteLine("Sorry, incorrect equation. Try again.");
+							}
 						}
 					case "file":
 						var filepath = options.Path;

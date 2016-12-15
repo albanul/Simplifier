@@ -110,7 +110,12 @@ namespace EquationSimplifier.Entities
 
 			if (compare == 0)
 			{
-				compare = Variables.Count < other.Variables.Count ? 1 : -1;
+				compare = Variables.Count.CompareTo(Variables.Count);
+			}
+
+			if (compare == 0)
+			{
+				compare = other.Coeficient.CompareTo(Coeficient);
 			}
 
 			return compare;
