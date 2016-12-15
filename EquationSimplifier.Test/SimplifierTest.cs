@@ -699,15 +699,15 @@ namespace EquationSimplifier.Test
 		}
 
 		[Fact]
-		public void Simplify_MinusXPlusYEqual0_ListWithXAndMinusYReturned()
+		public void Simplify_MinusXPlusYEqual0_ListWithXAndPlusYReturned()
 		{
 			var factory = new ConsoleInputFactory("-(x+y)=0");
 			var simplifier = new Simplifier(factory);
-			var x = new Summand(-1, new List<Variable>
+			var x = new Summand(1, new List<Variable>
 			{
 				new Variable("x", 1)
 			});
-			var y = new Summand(-1, new List<Variable>
+			var y = new Summand(1, new List<Variable>
 			{
 				new Variable("y", 1)
 			});
@@ -719,15 +719,15 @@ namespace EquationSimplifier.Test
 		}
 
 		[Fact]
-		public void Simplify_MinusXMinusYEqual0_ListWithXAndMinusYReturned()
+		public void Simplify_MinusXMinusYEqual0_ListWithXMinusYReturned()
 		{
 			var factory = new ConsoleInputFactory("-(x-y)=0");
 			var simplifier = new Simplifier(factory);
-			var x = new Summand(-1, new List<Variable>
+			var x = new Summand(1, new List<Variable>
 			{
 				new Variable("x", 1)
 			});
-			var y = new Summand(1, new List<Variable>
+			var y = new Summand(-1, new List<Variable>
 			{
 				new Variable("y", 1)
 			});
@@ -815,11 +815,11 @@ namespace EquationSimplifier.Test
 		}
 
 		[Fact]
-		public void Simplify_XMinusXPlusY_ListMinusYReturned()
+		public void Simplify_XMinusXPlusY_ListYReturned()
 		{
 			var factory = new ConsoleInputFactory("x-(x+y)=0");
 			var simplifier = new Simplifier(factory);
-			var y = new Summand(-1, new List<Variable>
+			var y = new Summand(1, new List<Variable>
 			{
 				new Variable("y", 1)
 			});
@@ -904,17 +904,17 @@ namespace EquationSimplifier.Test
 		}
 
 		[Fact]
-		public void Simplify_XMinusXPlusYEqual2X_MinusYMinus2XReturned()
+		public void Simplify_XMinusXPlusYEqual2X_YPlus2XReturned()
 		{
 			var factory = new ConsoleInputFactory("x - (x + y) = 2x");
 			var simplifier = new Simplifier(factory);
 			var result = new List<Summand>
 			{
-				new Summand(-1, new List<Variable>
+				new Summand(1, new List<Variable>
 				{
 					new Variable("y", 1)
 				}),
-				new Summand(-2, new List<Variable>
+				new Summand(2, new List<Variable>
 				{
 					new Variable("x", 1)
 				})

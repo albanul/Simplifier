@@ -9,10 +9,10 @@ namespace EquationSimplifier.Entities.Parsers
 
 		public ConsoleInputParser(string inputString)
 		{
-			if (string.IsNullOrEmpty(inputString))
-			{
-				throw new ArgumentNullException(nameof(inputString), "Input string can not be null or empty");
-			}
+			//if (string.IsNullOrEmpty(inputString))
+			//{
+			//	throw new ArgumentNullException(nameof(inputString), "Input string can not be null or empty");
+			//}
 
 			_inputString = inputString;
 		}

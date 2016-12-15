@@ -105,6 +105,14 @@ namespace EquationSimplifier.Entities
 
 			_summands.Sort();
 
+			if (_summands.Count > 0 && _summands[0].Coeficient < 0)
+			{
+				foreach (var summand in _summands)
+				{
+					summand.Coeficient *= -1;
+				}
+			}
+
 			return _summands;
 		}
 
@@ -119,7 +127,7 @@ namespace EquationSimplifier.Entities
 				switch (_state)
 				{
 					case SimplifierState.None:
-						NoneStateHandle(character);
+						summandDone = NoneStateHandle(character);
 
 						break;
 					case SimplifierState.Minus:
@@ -184,9 +192,17 @@ namespace EquationSimplifier.Entities
 			return summand;
 		}
 
-		private void NoneStateHandle(string character)
+		private bool NoneStateHandle(string character)
 		{
-			if (character == MinusSymbol)
+			var summandDone = false;
+
+			if (string.IsNullOrEmpty(character))
+			{
+				_summand.Coeficient = 0;
+				summandDone = true;
+				_finished = true;
+			}
+			else if (character == MinusSymbol)
 			{
 				_currentSummandSign = -1;
 				_state = SimplifierState.Minus;
@@ -212,6 +228,8 @@ namespace EquationSimplifier.Entities
 			{
 				throw new Exception();
 			}
+
+			return summandDone;
 		}
 
 		private bool FractionalPartOfCorficientStateHandle(string character)
