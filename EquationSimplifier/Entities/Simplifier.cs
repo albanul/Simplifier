@@ -50,6 +50,7 @@ namespace EquationSimplifier.Entities
 		private readonly StringBuilder _coeficientBuilder;
 
 		private bool _finished;
+		private bool _equalSymbolPassed;
 
 		public Simplifier(BaseInputOutputFactory factory, SimplifierState state = SimplifierState.None)
 		{
@@ -163,7 +164,7 @@ namespace EquationSimplifier.Entities
 
 						break;
 					case SimplifierState.CloseBracket:
-						CloseBracketStateHandle(character);
+						summandDone = CloseBracketStateHandle(character);
 
 						break;
 					default:
@@ -343,6 +344,8 @@ namespace EquationSimplifier.Entities
 			}
 			_stackOfSigns.Pop();
 			_stackOfSigns.Push(-1);
+
+			_equalSymbolPassed = true;
 		}
 
 		private void DotStateHandle(string character)
@@ -662,14 +665,36 @@ namespace EquationSimplifier.Entities
 			}
 		}
 
-		private void CloseBracketStateHandle(string character)
+		private bool CloseBracketStateHandle(string character)
 		{
-			if (character == CloseBracketSymbol)
+			var summandDone = false;
+
+			if (string.IsNullOrEmpty(character))
 			{
+				if (!_equalSymbolPassed || _stackOfSigns.Count > 1)
+				{
+					throw new Exception();
+				}
+
+				_summand.Coeficient = 0;
+
+				summandDone = true;
+
+				_finished = true;
+
+				_state = SimplifierState.None;
+			}
+			else if (character == CloseBracketSymbol)
+			{
+				if (_stackOfSigns.Count == 1)
+				{
+					throw new Exception();
+				}
+
 				_stackOfSigns.Pop();
 				_state = SimplifierState.CloseBracket;
 			}
-			else if (character == PlusSymbol || string.IsNullOrEmpty(character))
+			else if (character == PlusSymbol)
 			{
 				_state = SimplifierState.None;
 			}
@@ -689,6 +714,8 @@ namespace EquationSimplifier.Entities
 			{
 				throw new Exception();
 			}
+
+			return summandDone;
 		}
 
 		private void MinusStateHandle(string character)

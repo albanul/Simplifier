@@ -10,6 +10,8 @@ namespace EquationSimplifier.Entities
 		public double Coeficient { get; set; }
 		public List<Variable> Variables { get; private set; }
 
+		public bool IsConstant => Variables.Count == 1 && string.IsNullOrEmpty(Variables[0].Name);
+
 		public Summand(double coeficient, List<Variable> variables)
 		{
 			Coeficient = coeficient;
