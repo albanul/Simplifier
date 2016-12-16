@@ -70,11 +70,12 @@ namespace EquationSimplifier.Entities
 				// if coeficient != 0
 				if (Math.Abs(summand.Coeficient) > Eps)
 				{
+					// try to find summand with the same variables
 					var summandsWithSameVariables = _summands.Where(s => s.EqualVariables(summand)).ToArray();
 
 					if (summandsWithSameVariables.Length == 0)
 					{
-						// add new summand into colletion
+						// if haven't found then add new summand into colletion
 						_summands.Add(summand);
 					}
 					else
@@ -82,8 +83,10 @@ namespace EquationSimplifier.Entities
 						var sameSummand = summandsWithSameVariables[0];
 						var newCoeficient = sameSummand.Coeficient += summand.Coeficient;
 
+						
 						if (Math.Abs(newCoeficient) < Eps)
 						{
+							// if coeficient == 0 then remove found summand from collection
 							_summands.Remove(sameSummand);
 						}
 						else
@@ -96,6 +99,7 @@ namespace EquationSimplifier.Entities
 
 			_summands.Sort();
 
+			// if first summand have negative coeficient then invert all summand sign
 			if (_summands.Count > 0 && _summands[0].Coeficient < 0)
 			{
 				foreach (var summand in _summands)
@@ -209,9 +213,6 @@ namespace EquationSimplifier.Entities
 
 			if (string.IsNullOrEmpty(character))
 			{
-				//_summand.Coeficient = 0;
-				//summandDone = true;
-				//_finished = true;
 				throw new SyntaxException();
 			}
 			else if (character == MinusSymbol)

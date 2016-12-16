@@ -32,10 +32,12 @@ namespace EquationSimplifier.Entities
 			}
 			else
 			{
+				// remove constant from variables
 				Variables.Remove(new Variable(string.Empty, 0));
 
 				var found = false;
 
+				// try to find variable with the same name to sum the powers
 				for (var i = 0; i < Variables.Count; i++)
 				{
 					var v = Variables[i];
@@ -43,6 +45,7 @@ namespace EquationSimplifier.Entities
 					if (v.Name == variable.Name)
 					{
 						var power = v.Power + variable.Power;
+						// if power == 0 then make variable a constant
 						Variables[i] = new Variable(power == 0 ? string.Empty : v.Name, power);
 						found = true;
 						break;
